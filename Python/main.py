@@ -1,16 +1,18 @@
-# This is a sample Python script.
+import random
+import time
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+import hue
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def alarm():
+    i = 0
+    hue.define_pre_state(1)
+    while i < 300:
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+        x = random.random()
+        y = random.random()
+        print(f'{x}:{y}')
+        hue.alarm_state(1, 0.4, 0.1)
+        i =+ i + 1
+    hue.pre_state(1)
+alarm()

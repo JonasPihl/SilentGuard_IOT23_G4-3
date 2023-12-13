@@ -16,9 +16,7 @@ def get_url():
 
 
 def alarm_state(id,xcolor,ycolor):
-
     requests.put(f'{get_url()}/lights/{id}/state', json.dumps({"xy": [xcolor, ycolor], "alert": "select"}))
-
     return None
 
 
@@ -32,6 +30,6 @@ def pre_state(id):
     requests.put(f'{get_url()}/lights/{id}/state', json.dumps(x["state"]))
 
 
-
+print(requests.get(f'{get_url()}/lights/').text)
 
 
