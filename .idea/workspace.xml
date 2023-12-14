@@ -42,8 +42,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="trying to fix android studios">
+      <change afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/drawable/baseline_list_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/drawable/baseline_tv_24.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/menu/bottom_nav_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/menu/bottom_nav_menu.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +57,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\leg0m\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\frida\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/face detection application">
       <ProjectState />
@@ -123,6 +127,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\frida\AndroidStudioProjects\SilentGuard_IOT23_G4-3\face detection application\app\src\main\res\drawable" />
       <recent name="C:\Users\leg0m\AndroidStudioProjects\SilentGuard_IOT23_G4-3\face detection application" />
     </key>
   </component>
@@ -212,7 +217,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702563196267</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="trying to fix android studios">
+      <option name="closed" value="true" />
+      <created>1702565722897</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1702565722897</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
