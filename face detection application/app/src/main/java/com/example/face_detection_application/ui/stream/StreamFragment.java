@@ -1,4 +1,4 @@
-package com.example.face_detection_application.ui.dashboard;
+package com.example.face_detection_application.ui.stream;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.face_detection_application.databinding.FragmentDashboardBinding;
+import com.example.face_detection_application.databinding.FragmentStreamBinding;
 
-public class DashboardFragment extends Fragment {
+public class StreamFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentStreamBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        StreamViewModel streamViewModel =
+                new ViewModelProvider(this).get(StreamViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentStreamBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        streamViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.DashboardFragment">
+    tools:context=".ui.stream.StreamFragment">
 
     <TextView
         android:id="@+id/text_dashboard"
@@ -20,11 +20,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Testing shit deluxe shit extreme"
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="158dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
