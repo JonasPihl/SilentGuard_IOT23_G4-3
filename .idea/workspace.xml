@@ -15,12 +15,22 @@
           <theme>@style/Theme.Face_detection_Application</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_home.xml">
+      <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_log.xml">
         <config>
           <theme>@style/Theme.Face_detection_Application</theme>
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_notifications.xml">
+        <config>
+          <theme>@style/Theme.Face_detection_Application</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_settings.xml">
+        <config>
+          <theme>@style/Theme.Face_detection_Application</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_stream.xml">
         <config>
           <theme>@style/Theme.Face_detection_Application</theme>
         </config>
@@ -41,10 +51,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="trying to fix android studios">
-      <change afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/drawable/baseline_settings_24.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/menu/bottom_nav_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/menu/bottom_nav_menu.xml" afterDir="false" />
+    <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="icons">
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_log.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_log.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/navigation/mobile_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/navigation/mobile_navigation.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,11 +232,28 @@
       <option name="project" value="LOCAL" />
       <updated>1702565722897</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="icons">
+      <option name="closed" value="true" />
+      <created>1702644417124</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1702644417124</updated>
+    </task>
+    <task id="LOCAL-00004" summary="icons">
+      <option name="closed" value="true" />
+      <created>1702644426198</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1702644426198</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="trying to fix android studios" />
-    <option name="LAST_COMMIT_MESSAGE" value="trying to fix android studios" />
+    <MESSAGE value="icons" />
+    <option name="LAST_COMMIT_MESSAGE" value="icons" />
   </component>
 </project>
