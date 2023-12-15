@@ -11,16 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.example.face_detection_application.R;
 import com.example.face_detection_application.databinding.FragmentLogBinding;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-
 
 public class LogFragment extends Fragment {
 
