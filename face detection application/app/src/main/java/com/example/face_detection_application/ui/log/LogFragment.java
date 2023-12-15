@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+
 public class LogFragment extends Fragment {
 
     private FragmentLogBinding binding;
