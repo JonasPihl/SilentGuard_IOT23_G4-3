@@ -37,7 +37,7 @@ def log_visitor(captured_image):
         date_to_save[3]) + ":" + str(date_to_save[4]) + ")"
 
     # Saves the image to the selected path
-    path = '/Users/jonas/Documents/testdir'
+    path = 'images'
     cv2.imwrite(os.path.join(path, date_string + '.jpg'), captured_image)
 
     # To ensure that we only log the visit 1 time
