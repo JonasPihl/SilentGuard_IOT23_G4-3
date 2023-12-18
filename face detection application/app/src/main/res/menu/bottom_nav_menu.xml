@@ -2,12 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_log"
         android:icon="@drawable/baseline_receipt_long_24"
         android:title="@string/title_log"
         />
-
-
 
     <item
         android:id="@+id/navigation_stream"
@@ -17,7 +15,7 @@
         <!-- android:icon="@android:drawable/ic_menu_camera" -->
 
     <item
-        android:id="@+id/navigation_log"
+        android:id="@+id/navigation_home"
         android:icon="@drawable/baseline_settings_24"
         android:title="@string/title_settings"
         />

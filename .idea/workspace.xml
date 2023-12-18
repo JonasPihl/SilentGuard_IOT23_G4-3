@@ -10,17 +10,22 @@
           <theme>@style/Theme.Face_detection_Application</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_home.xml">
-        <config>
-          <theme>@style/Theme.Face_detection_Application</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_log.xml">
         <config>
           <theme>@style/Theme.Face_detection_Application</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_settings.xml">
+        <config>
+          <theme>@style/Theme.Face_detection_Application</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_stream.xml">
+        <config>
+          <theme>@style/Theme.Face_detection_Application</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/logs_item.xml">
         <config>
           <theme>@style/Theme.Face_detection_Application</theme>
         </config>
@@ -41,15 +46,32 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="some ui and id changes">
-      <change afterPath="$PROJECT_DIR$/face detection application/app/src/main/assets/logs.txt" afterDir="false" />
+    <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="Completed logs tab">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_exifinterface_27_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_annotations_27_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_gson_gson_2_8_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okhttp3_okhttp_3_14_9.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okio_okio_1_17_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_picasso_picasso_2_71828_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_retrofit2_converter_gson_2_9_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_retrofit2_retrofit_2_9_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.androidTest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.androidTest.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.unitTest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.unitTest.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/assets/logs.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/home/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/home/HomeViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsViewModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/log/LogFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/log/LogFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/activity_main.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_log.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_log.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_stream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_stream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/menu/bottom_nav_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/menu/bottom_nav_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/navigation/mobile_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/navigation/mobile_navigation.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +125,15 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="layoutResourceFile" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
@@ -124,12 +155,14 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "com.google.services.firebase.aqiPopupShown": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/leg0m/AndroidStudioProjects/SilentGuard_IOT23_G4-3/face detection application/settings.gradle.kts"
+    "last_opened_file_path": "C:/Users/leg0m/AndroidStudioProjects/SilentGuard_IOT23_G4-3/face detection application/settings.gradle.kts",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -241,12 +274,37 @@
       <option name="project" value="LOCAL" />
       <updated>1702643538913</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Completed logs tab">
+      <option name="closed" value="true" />
+      <created>1702650726796</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1702650726796</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Completed logs tab">
+      <option name="closed" value="true" />
+      <created>1702650898898</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1702650898898</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Completed logs tab">
+      <option name="closed" value="true" />
+      <created>1702650978960</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1702650978960</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="trying to fix android studios" />
     <MESSAGE value="some ui and id changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="some ui and id changes" />
+    <MESSAGE value="Completed logs tab" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed logs tab" />
   </component>
 </project>

@@ -1,14 +1,14 @@
-package com.example.face_detection_application.ui.home;
+package com.example.face_detection_application.ui.settings;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class SettingsViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public SettingsViewModel() {
         mText = new MutableLiveData<>();
     }
 

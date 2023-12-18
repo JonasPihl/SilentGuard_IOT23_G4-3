@@ -4,80 +4,96 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import com.example.face_detection_application.databinding.FragmentLogBinding;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class LogFragment extends Fragment {
 
     private FragmentLogBinding binding;
     private ListView logs;
-    private ArrayAdapter<String> adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LogViewModel logViewModel = new ViewModelProvider(this).get(LogViewModel.class);
+
 
         binding = FragmentLogBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // Use binding to access the logs ListView
         logs = binding.logs;
-
-        adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1);
-        logs.setAdapter(adapter);  // Set the adapter to the ListView
-
-        readLinesFromFile();
-
-        final TextView textView = binding.textNotifications;
-        logViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        ImageListAdapter adapter = new ImageListAdapter(requireActivity(), new ArrayList<>());
+        logs.setAdapter(adapter);
         return root;
     }
 
+    private void getImages() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.174:5000") //TODO Replace with Pi's IP
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-    private void readLinesFromFile() {
-        // clear the adapter to start fresh
-        adapter.clear();
+        retrofitInterface apiService = retrofit.create(retrofitInterface.class);
+        Call<Map<String, List<String>>> imageListCall = apiService.getImageList();
 
-        try {
-            // reads the text file and gets neccesary info
-            //TODO change so its reads image name and takes that info along with showing the image.
-            InputStream inputStream = requireActivity().getAssets().open("logs.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        imageListCall.enqueue(new Callback<Map<String, List<String>>>() {
+            @Override
+            public void onResponse(Call<Map<String, List<String>>> call, Response<Map<String, List<String>>> response) {
+                if (response.isSuccessful()) {
+                    Map<String, List<String>> responseBody = response.body();
+                    //TODO FIX unexpected end of stream error
+                    //System.out.println("Response code: " + response.code());
+                    //System.out.println("Response body: " + response.body());
 
-            String line;
-            int lineCount = 0;
+                    if (responseBody != null && responseBody.containsKey("image_list")) {
+                        List<Map.Entry<String, String>> imageEntries = new ArrayList<>();
 
-            while ((line = reader.readLine()) != null && lineCount < 3) {
-                adapter.add(line);
-                System.out.println(line);
-                lineCount++;
+
+                        for (String filename : responseBody.get("image_list")) {
+                            // Construct the full image URL
+                            String imageUrl = "http://192.168.1.174:5000/images/" + filename;  //TODO Change the IP to the raspberry pis IP
+                            System.out.println(imageUrl);
+                            // Create a Map.Entry for each image
+                            Map.Entry<String, String> entry = new AbstractMap.SimpleEntry<>(filename, imageUrl);
+
+                            // Add the entry to the list
+                            imageEntries.add(entry);
+                        }
+
+                        // Update the custom adapter
+                        ImageListAdapter adapter = new ImageListAdapter(requireContext(), imageEntries);
+                        logs.setAdapter(adapter);
+                    } else {
+                        System.out.println("Response body is null or does not contain 'image_list'");
+                    }
+                    System.out.println("Response code: " + response.code());
+                }
             }
 
-            reader.close();
-            // Notify the adapter that the data set has changed
-            adapter.notifyDataSetChanged();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            @Override
+            public void onFailure(Call<Map<String, List<String>>> call, Throwable t) {
+                System.out.println("Fail: " + t.getMessage());
+            }
+        });
     }
-
-
+    @Override
     public void onResume() {
+        //Reloads the log each time the fragment is reloaded
         super.onResume();
-        // Read the file each time the fragment is resumed
-        readLinesFromFile();
+        getImages();
     }
 
     @Override
