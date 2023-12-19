@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.example.face_detection_application.databinding.FragmentLogBinding;
 
+import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +41,14 @@ public class LogFragment extends Fragment {
         return root;
     }
 
-    private void getImages() {
+    //Really ugly solution but will be a standin untill such a time that i pinpoint the source of the Unexpected end of stream error
+    private void getImagesWithRetry() {
+        getImagesWithRetryRecursive();
+    }
+
+    private void getImagesWithRetryRecursive() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.174:5000") //TODO Replace with Pi's IP
+                .baseUrl("http://192.168.1.174:5000") // TODO Replace with Pi's IP
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -54,17 +60,13 @@ public class LogFragment extends Fragment {
             public void onResponse(Call<Map<String, List<String>>> call, Response<Map<String, List<String>>> response) {
                 if (response.isSuccessful()) {
                     Map<String, List<String>> responseBody = response.body();
-                    //TODO FIX unexpected end of stream error
-                    //System.out.println("Response code: " + response.code());
-                    //System.out.println("Response body: " + response.body());
 
                     if (responseBody != null && responseBody.containsKey("image_list")) {
                         List<Map.Entry<String, String>> imageEntries = new ArrayList<>();
 
-
                         for (String filename : responseBody.get("image_list")) {
                             // Construct the full image URL
-                            String imageUrl = "http://192.168.1.174:5000/images/" + filename;  //TODO Change the IP to the raspberry pis IP
+                            String imageUrl = "http://192.168.1.174:5000/images/" + filename; // TODO Change the IP to the raspberry pi's IP
                             System.out.println(imageUrl);
                             // Create a Map.Entry for each image
                             Map.Entry<String, String> entry = new AbstractMap.SimpleEntry<>(filename, imageUrl);
@@ -86,14 +88,20 @@ public class LogFragment extends Fragment {
             @Override
             public void onFailure(Call<Map<String, List<String>>> call, Throwable t) {
                 System.out.println("Fail: " + t.getMessage());
+                t.printStackTrace();
+
+                // Retry indefinitely on failure
+                getImagesWithRetryRecursive();
             }
         });
     }
+
+
     @Override
     public void onResume() {
         //Reloads the log each time the fragment is reloaded
         super.onResume();
-        getImages();
+        getImagesWithRetry();
     }
 
     @Override
