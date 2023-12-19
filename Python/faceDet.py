@@ -1,6 +1,7 @@
 import cv2
 import os
 import time
+from flask import Flask, jsonify, send_file, send_from_directory
 
 # Load the cascade for face detection
 face_cascade = cv2.CascadeClassifier('facedetection.xml')
@@ -11,6 +12,22 @@ logged = False
 visitor_detected = False
 last_detected = 0.0
 
+app = Flask(__name__)
+
+@app.route('/get_image_list')
+def get_image_list():
+    image_files = [f for f in os.listdir("images") if f.endswith(".jpg")]
+    print(image_files)
+    return jsonify({"image_list": image_files})
+
+@app.route('/images/<path:filename>')
+def serve_image(filename):
+    return send_from_directory("images", filename)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+
 
 def log_visitor(captured_image):
 
@@ -20,7 +37,7 @@ def log_visitor(captured_image):
         date_to_save[3]) + ":" + str(date_to_save[4]) + ")"
 
     # Saves the image to the selected path
-    path = '/Users/jonas/Documents/testdir'
+    path = 'images'
     cv2.imwrite(os.path.join(path, date_string + '.jpg'), captured_image)
 
     # To ensure that we only log the visit 1 time
