@@ -28,6 +28,7 @@ public class LogFragment extends Fragment {
 
     private FragmentLogBinding binding;
     private ListView logs;
+    private static final String serverAdress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -41,17 +42,14 @@ public class LogFragment extends Fragment {
         return root;
     }
 
-    //Really ugly solution but will be a standin untill such a time that i pinpoint the source of the Unexpected end of stream error
     private void getImagesWithRetry() {
         getImagesWithRetryRecursive();
     }
 
     private void getImagesWithRetryRecursive() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.174:5000") // TODO Replace with Pi's IP
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
+        //Prepares to talk to server
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).addConverterFactory(GsonConverterFactory.create()).build();
         retrofitInterface apiService = retrofit.create(retrofitInterface.class);
         Call<Map<String, List<String>>> imageListCall = apiService.getImageList();
 
@@ -66,30 +64,25 @@ public class LogFragment extends Fragment {
 
                         for (String filename : responseBody.get("image_list")) {
                             // Construct the full image URL
-                            String imageUrl = "http://192.168.1.174:5000/images/" + filename; // TODO Change the IP to the raspberry pi's IP
-                            System.out.println(imageUrl);
+                            String imageUrl =  serverAdress + "/images/" + filename;
                             // Create a Map.Entry for each image
                             Map.Entry<String, String> entry = new AbstractMap.SimpleEntry<>(filename, imageUrl);
-
                             // Add the entry to the list
                             imageEntries.add(entry);
                         }
 
-                        // Update the custom adapter
+                        // Update the custom adapter with the new content (Image and corresponding text)
                         ImageListAdapter adapter = new ImageListAdapter(requireContext(), imageEntries);
                         logs.setAdapter(adapter);
                     } else {
                         System.out.println("Response body is null or does not contain 'image_list'");
                     }
-                    System.out.println("Response code: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<Map<String, List<String>>> call, Throwable t) {
                 System.out.println("Fail: " + t.getMessage());
-                t.printStackTrace();
-
                 // Retry indefinitely on failure
                 getImagesWithRetryRecursive();
             }
