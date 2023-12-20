@@ -10,28 +10,60 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.face_detection_application.databinding.FragmentStreamBinding;
+import com.example.face_detection_application.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment {
 
-    private FragmentStreamBinding binding;
-
+    private FragmentSettingsBinding binding;
+    boolean systemEnabled;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         SettingsViewModel settingsViewModel =
                 new ViewModelProvider(this).get(SettingsViewModel.class);
 
-        binding = FragmentStreamBinding.inflate(inflater, container, false);
+        binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
+        systemEnabled = getSystemState();
+        binding.disableButton.setChecked(systemEnabled);
+
+        binding.disableButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                systemEnabled = !systemEnabled;
+
+                if (systemEnabled) {
+                    binding.disableButton.setChecked(true);
+
+                    //todo Start up the system
+                    System.out.println("Enabling system");
+
+                } else {
+                    binding.disableButton.setChecked(false);
+
+                    //todo Shutdown the system
+                    System.out.println("Disabling system");
+                }
+            }
+        });
+
+        final TextView textView = binding.textNotifications;
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private boolean getSystemState(){
+        //todo Get the live system state here to reflect real state on Disable button
+        /*if (systemState == true){
+            return true;
+        } else {
+            return false;
+        }*/
+        return true; //temporary
     }
 }

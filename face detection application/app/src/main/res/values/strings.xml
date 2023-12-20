@@ -3,4 +3,6 @@
     <string name="title_log">Log</string>
     <string name="title_stream">Stream</string>
     <string name="title_settings">Settings</string>
+    <string name="system_disabled">System Disabled</string>
+    <string name="system_enabled">System Enabled</string>
 </resources>
