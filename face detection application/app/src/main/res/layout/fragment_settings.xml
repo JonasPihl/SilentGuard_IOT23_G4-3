@@ -25,13 +25,39 @@
         android:layout_width="328dp"
         android:layout_height="72dp"
 
-        android:textOn = "@string/system_enabled"
-        android:textOff = "@string/system_disabled"
+        android:textOff="@string/system_disabled"
+        android:textOn="@string/system_enabled"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.771" />
+        app:layout_constraintVertical_bias="0.871" />
+
+    <Button
+        android:id="@+id/color_button"
+        android:layout_width="188dp"
+        android:layout_height="76dp"
+        android:text="Pick color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.705" />
+
+    <ImageView
+        android:id="@+id/color_wheel"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:src="@drawable/colorwheelimage"
+
+        android:contentDescription="color_wheel_picker"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.048" />
 </androidx.constraintlayout.widget.ConstraintLayout>
