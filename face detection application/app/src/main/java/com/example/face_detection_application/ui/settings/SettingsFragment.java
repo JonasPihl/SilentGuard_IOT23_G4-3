@@ -27,24 +27,25 @@ public class SettingsFragment extends Fragment {
         systemEnabled = getSystemState();
         binding.disableButton.setChecked(systemEnabled);
 
-        ///
         binding.disableButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 systemEnabled = !systemEnabled;
 
                 if (systemEnabled) {
-                    System.out.println("Enabling system");
                     binding.disableButton.setChecked(true);
-                    //Start up the system
+
+                    //todo Start up the system
+                    System.out.println("Enabling system");
+
                 } else {
-                    System.out.println("Disabling system");
                     binding.disableButton.setChecked(false);
-                    //Shutdown the system
+
+                    //todo Shutdown the system
+                    System.out.println("Disabling system");
                 }
             }
         });
-        ///
 
         final TextView textView = binding.textNotifications;
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);

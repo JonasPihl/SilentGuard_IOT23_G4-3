@@ -46,10 +46,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="Fixed elements not showing correctly on Stream/Settings pages">
+    <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="added Disable System button structure">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_settings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -291,7 +290,14 @@
       <option name="presentableId" value="LOCAL−00008" />
       <updated>1703069326843</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL−00009" summary="added Disable System button structure">
+      <option name="closed" value="true" />
+      <created>1703076260992</created>
+      <option name="number" value="LOCAL−00009" />
+      <option name="presentableId" value="LOCAL−00009" />
+      <updated>1703076260992</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -311,6 +317,7 @@
     <MESSAGE value="Completed logs tab" />
     <MESSAGE value="Completed Logs functionality and fixed UI buttons not sending you to right tab aswell as other GUI related fixes" />
     <MESSAGE value="Fixed elements not showing correctly on Stream/Settings pages" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed elements not showing correctly on Stream/Settings pages" />
+    <MESSAGE value="added Disable System button structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="added Disable System button structure" />
   </component>
 </project>
