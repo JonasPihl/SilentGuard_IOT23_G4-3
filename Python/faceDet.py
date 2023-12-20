@@ -1,7 +1,7 @@
 import cv2
 import os
 import time
-
+from flask import Flask, jsonify, send_file, send_from_directory
 
 # Load the cascade for face detection
 face_cascade = cv2.CascadeClassifier('facedetection.xml')
@@ -11,6 +11,11 @@ cap = cv2.VideoCapture(0)
 logged = False
 visitor_detected = False
 last_detected = 0.0
+
+
+def get_videostream():
+    return cap
+
 
 def log_visitor(captured_image):
 
@@ -23,7 +28,7 @@ def log_visitor(captured_image):
     path = 'images'
     cv2.imwrite(os.path.join(path, date_string + '.jpg'), captured_image)
 
-    # To ensure that we only log the visit 1 time
+    # ensure that we only log the visit 1 time
     global logged
     logged = True
 
@@ -37,14 +42,14 @@ while True:
     faces = face_cascade.detectMultiScale(gray, 1.1, 4)
     if len(faces) > 0:
         last_detected = time.process_time()
-        print(last_detected)
+
         visitor_detected = True
         if not logged:
             log_visitor(img)
-        # Call for hue script here
+        # Call hue script to start the lights here
 
     elif visitor_detected & len(faces) == 0:
         if time.process_time() - last_detected > 7:
             visitor_detected = False
             logged = False
-            print("visitor has left")
+            # Call hue script to stop the lights here

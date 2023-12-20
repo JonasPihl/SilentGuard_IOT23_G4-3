@@ -1,6 +1,7 @@
 import os
 from flask import Flask, jsonify, send_file, send_from_directory
 
+import faceDet
 
 app = Flask(__name__)
 
@@ -13,6 +14,13 @@ def get_image_list():
 @app.route('/images/<path:filename>')
 def serve_image(filename):
     return send_from_directory("images", filename)
+
+@app.route('/video')
+def get_video():
+    #cap = faceDet.cap
+    return faceDet.cap.read()
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
