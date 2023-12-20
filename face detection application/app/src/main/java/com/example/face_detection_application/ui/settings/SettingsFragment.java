@@ -15,7 +15,7 @@ import com.example.face_detection_application.databinding.FragmentSettingsBindin
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
-
+    boolean systemEnabled;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         SettingsViewModel settingsViewModel =
@@ -24,14 +24,45 @@ public class SettingsFragment extends Fragment {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        systemEnabled = getSystemState();
+        binding.disableButton.setChecked(systemEnabled);
+
+        ///
+        binding.disableButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                systemEnabled = !systemEnabled;
+
+                if (systemEnabled) {
+                    System.out.println("Enabling system");
+                    binding.disableButton.setChecked(true);
+                    //Start up the system
+                } else {
+                    System.out.println("Disabling system");
+                    binding.disableButton.setChecked(false);
+                    //Shutdown the system
+                }
+            }
+        });
+        ///
+
         final TextView textView = binding.textNotifications;
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private boolean getSystemState(){
+        //todo Get the live system state here to reflect real state on Disable button
+        /*if (systemState == true){
+            return true;
+        } else {
+            return false;
+        }*/
+        return true; //temporary
     }
 }

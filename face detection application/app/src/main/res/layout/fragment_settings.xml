@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ToggleButton
-        android:id="@+id/button"
+        android:id="@+id/disable_button"
         android:layout_width="328dp"
         android:layout_height="72dp"
 
