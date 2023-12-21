@@ -1,7 +1,9 @@
 package com.example.face_detection_application.ui.settings;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,14 +18,18 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.face_detection_application.databinding.FragmentSettingsBinding;
 
-public class SettingsFragment extends Fragment {
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
+public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;
     boolean systemEnabled;
-
     ImageView colorWheel;
     Bitmap colorBitMap;
     String colorHexValue;
+    int red, green, blue;
+    Color completeColor;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         SettingsViewModel settingsViewModel =
@@ -34,6 +40,10 @@ public class SettingsFragment extends Fragment {
 
         systemEnabled = getSystemState();
         binding.disableButton.setChecked(systemEnabled);
+
+
+        colorWheel = binding.colorWheel;
+        colorWheel.setVisibility(View.INVISIBLE);
 
         binding.disableButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,12 +60,14 @@ public class SettingsFragment extends Fragment {
                     binding.disableButton.setChecked(false);
 
                     //todo Shutdown the system
+                    disableSystem();
                     System.out.println("Disabling system");
                 }
             }
         });
 
         binding.colorButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ClickableViewAccessibility") //Supress accessability warning
             @Override
             public void onClick(View v) {
                 colorWheel = binding.colorWheel;
@@ -65,6 +77,11 @@ public class SettingsFragment extends Fragment {
                 if (isVisible){
                     colorWheel.setVisibility(View.INVISIBLE);
                     sendHexToHue(colorHexValue);
+
+                    if (completeColor != null){
+                        getRGBtoHueXY(completeColor);
+                    }
+
                 } else {
                     colorWheel.setVisibility(View.VISIBLE);
                 }
@@ -83,11 +100,23 @@ public class SettingsFragment extends Fragment {
 
                         int colorPixels = colorBitMap.getPixel(x, y);
 
+                        completeColor = colorBitMap.getColor(x, y);
+
+                        ///
+                        red = Color.red(colorPixels);
+                        green = Color.green(colorPixels);
+                        blue = Color.blue(colorPixels);
+                        ///
+
                         colorHexValue = "#"+ Integer.toHexString(colorPixels);
 
                         if (colorHexValue.equals("#0")){
                             colorHexValue = startingColor;
                         }
+
+                        System.out.println("r g b: " + red + " " + green + " " + blue);
+
+                        System.out.println(colorPixels);
 
                         System.out.println(colorHexValue);
 
@@ -102,6 +131,64 @@ public class SettingsFragment extends Fragment {
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
+    ///
+    public static List<Double> getRGBtoHueXY(Color completeColor) {
+        // https://developers.meethue.com/develop/application-design-guidance/color-conversion-formulas-rgb-to-xy-and-back/
+        // For the hue bulb the corners of the triangle are:
+        // -Red: 0.675, 0.322
+        // -Green: 0.4091, 0.518
+        // -Blue: 0.167, 0.04
+        double[] normalizedToOne = new double[3];
+        float red, green, blue;
+
+        red = completeColor.red();
+        green = completeColor.green();
+        blue = completeColor.blue();
+        normalizedToOne[0] = (red / 255);
+        normalizedToOne[1] = (green / 255);
+        normalizedToOne[2] = (blue / 255);
+        //float red, green, blue;
+
+        // Gamma correction for colors
+        if (normalizedToOne[0] > 0.04045) {
+            red = (float) Math.pow(
+                    (normalizedToOne[0] + 0.055) / (1.0 + 0.055), 2.4);
+        } else {
+            red = (float) (normalizedToOne[0] / 12.92);
+        }
+
+        if (normalizedToOne[1] > 0.04045) {
+            green = (float) Math.pow((normalizedToOne[1] + 0.055)
+                    / (1.0 + 0.055), 2.4);
+        } else {
+            green = (float) (normalizedToOne[1] / 12.92);
+        }
+
+        if (normalizedToOne[2] > 0.04045) {
+            blue = (float) Math.pow((normalizedToOne[2] + 0.055)
+                    / (1.0 + 0.055), 2.4);
+        } else {
+            blue = (float) (normalizedToOne[2] / 12.92);
+        }
+
+        //Convert RBG to XYZ with Wide RGB D65 formula
+        float X = (float) (red * 0.649926 + green * 0.103455 + blue * 0.197109);
+        float Y = (float) (red * 0.234327 + green * 0.743075 + blue * 0.022598);
+        float Z = (float) (red * 0.0000000 + green * 0.053077 + blue * 1.035763);
+
+        //Calculate XY values from XYZ
+        float x = X / (X + Y + Z);
+        float y = Y / (X + Y + Z);
+
+        double[] xy = new double[2];
+        xy[0] = x;
+        xy[1] = y;
+        List<Double> xyAsList = DoubleStream.of(xy).boxed().collect(Collectors.toList());
+
+        System.out.println(x + " " + y);
+        return xyAsList;
+    }
+    ///
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -109,7 +196,12 @@ public class SettingsFragment extends Fragment {
     }
     private void sendHexToHue(String colorHexValue){
         //todo send colorHexValue to hue
-        System.out.println(colorHexValue + " sent to hue");
+        if (colorHexValue != null){
+            System.out.println(colorHexValue + " sent to hue");
+        } else {
+            System.out.println("No color sent to hue.");
+        }
+
     }
 
     private boolean getSystemState(){
@@ -120,6 +212,9 @@ public class SettingsFragment extends Fragment {
             return false;
         }*/
         return true; //temporary
+    }
+    private void disableSystem(){
+        //todo disable
     }
 
     private Bitmap getBitMapFromView(View view) {

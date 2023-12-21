@@ -48,6 +48,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="added Disable System button structure">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -138,12 +139,16 @@
     &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/leg0m/AndroidStudioProjects/SilentGuard_IOT23_G4-3/face detection application/settings.gradle.kts&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/viqto/AndroidStudioProjects/SilentGuard_IOT23_G4-3/face detection application/app/src/main/res/drawable&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\viqto\AndroidStudioProjects\SilentGuard_IOT23_G4-3\face detection application\app\src\main\res\drawable" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\viqto\AndroidStudioProjects\SilentGuard_IOT23_G4-3\face detection application\app\src\main\res\drawable" />
       <recent name="C:\Users\leg0m\AndroidStudioProjects\SilentGuard_IOT23_G4-3\face detection application\app\src\main\assets" />
       <recent name="C:\Users\frida\AndroidStudioProjects\SilentGuard_IOT23_G4-3\face detection application\app\src\main\res\drawable" />
       <recent name="C:\Users\leg0m\AndroidStudioProjects\SilentGuard_IOT23_G4-3\face detection application" />
@@ -297,7 +302,14 @@
       <option name="presentableId" value="LOCAL−00009" />
       <updated>1703076260992</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL−00010" summary="added Disable System button structure">
+      <option name="closed" value="true" />
+      <created>1703077356704</created>
+      <option name="number" value="LOCAL−00010" />
+      <option name="presentableId" value="LOCAL−00010" />
+      <updated>1703077356704</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
