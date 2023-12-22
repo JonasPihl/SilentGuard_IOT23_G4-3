@@ -1,20 +1,26 @@
 import cv2
 import os
 import time
-from flask import Flask, jsonify, send_file, send_from_directory
+import signal
 
 # Load the cascade for face detection
 face_cascade = cv2.CascadeClassifier('facedetection.xml')
 
 # To capture video from webcam. 
-cap = cv2.VideoCapture(0)
+
 logged = False
 visitor_detected = False
 last_detected = 0.0
+user_watching_feed = False
 
+#def get_videostream():
+#    return cap
 
-def get_videostream():
-    return cap
+def signal_handler(signum, frame):
+    # Add cleanup code if needed
+    exit()
+
+signal.signal(signal.SIGTERM, signal_handler)
 
 
 def log_visitor(captured_image):
@@ -32,24 +38,40 @@ def log_visitor(captured_image):
     global logged
     logged = True
 
+def on_off(status_request):
+    global on_off_status
+    on_off_status = status_request
 
-while True:
-    # Read the frame
-    _, img = cap.read()
-    # Convert to grayscale
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    # Detect the faces
-    faces = face_cascade.detectMultiScale(gray, 1.1, 4)
-    if len(faces) > 0:
-        last_detected = time.process_time()
+def face_detection_loop():
+    global on_off_status, user_watching_feed, logged, visitor_detected, last_detected, face_cascade
+    cap = cv2.VideoCapture(0)
 
-        visitor_detected = True
-        if not logged:
-            log_visitor(img)
-        # Call hue script to start the lights here
+    while True:
+        # Read the frame
+        _, img = cap.read()
+        # Convert to grayscale
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # Detect the faces
+        faces = face_cascade.detectMultiScale(gray, 1.1, 4)
 
-    elif visitor_detected & len(faces) == 0:
-        if time.process_time() - last_detected > 7:
-            visitor_detected = False
-            logged = False
-            # Call hue script to stop the lights here
+        if user_watching_feed:
+            # send image feed to the android application here
+            print("Sending image feed to android application")
+
+        if len(faces) > 0:
+            last_detected = time.process_time()
+            print(str(len(faces)) + " faces detected")
+            visitor_detected = True
+            if not logged:
+                log_visitor(img)
+            # Call hue script to start the lights here
+
+        elif visitor_detected & len(faces) == 0:
+            if time.process_time() - last_detected > 7:
+                visitor_detected = False
+                logged = False
+                # Call hue script to stop the lights here
+
+
+if __name__ == '__main__':
+    face_detection_loop()
