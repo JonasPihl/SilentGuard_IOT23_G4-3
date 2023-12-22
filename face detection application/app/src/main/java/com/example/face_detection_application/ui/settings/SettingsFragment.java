@@ -80,9 +80,7 @@ public class SettingsFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-                            // Handle failure
-                        }
+                        public void onFailure(Call<Void> call, Throwable t) {}
                     });
 
                 } else {
@@ -96,9 +94,7 @@ public class SettingsFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-                            // Handle failure
-                        }
+                        public void onFailure(Call<Void> call, Throwable t) {}
                     });
                 }
             }
