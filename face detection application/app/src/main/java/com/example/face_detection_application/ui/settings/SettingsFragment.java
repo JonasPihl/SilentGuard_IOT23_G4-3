@@ -15,42 +15,79 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.face_detection_application.databinding.FragmentSettingsBinding;
+import com.example.face_detection_application.ui.log.retrofitInterface;
+
+
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+
 
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
-    boolean systemEnabled;
+    private boolean systemEnabled;
+    private static final String serverAdress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
+
 
     ImageView colorWheel;
     Bitmap colorBitMap;
     String colorHexValue;
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         SettingsViewModel settingsViewModel =
                 new ViewModelProvider(this).get(SettingsViewModel.class);
 
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        systemEnabled = getSystemState();
-        binding.disableButton.setChecked(systemEnabled);
+        getSystemState();
+
 
         binding.disableButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 systemEnabled = !systemEnabled;
+                binding.disableButton.setChecked(true);
+                Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
+                retrofitInterface apiService = retrofit.create(retrofitInterface.class);
+                Call<Void> onOff = apiService.on_off(systemEnabled);
 
                 if (systemEnabled) {
-                    binding.disableButton.setChecked(true);
+                    onOff.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            // Handle success
+                            // todo: Start up the system
+                            System.out.println("Enabling system");
+                        }
 
-                    //todo Start up the system
-                    System.out.println("Enabling system");
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            // Handle failure
+                        }
+                    });
 
                 } else {
-                    binding.disableButton.setChecked(false);
+                    onOff.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            // Handle success
+                            binding.disableButton.setChecked(false);
+                            // todo: Shutdown the system
+                            System.out.println("Disabling system");
+                        }
 
-                    //todo Shutdown the system
-                    System.out.println("Disabling system");
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            // Handle failure
+                        }
+                    });
                 }
             }
         });
@@ -112,14 +149,25 @@ public class SettingsFragment extends Fragment {
         System.out.println(colorHexValue + " sent to hue");
     }
 
-    private boolean getSystemState(){
-        //todo Get the live system state here to reflect real state on Disable button
-        /*if (systemState == true){
-            return true;
-        } else {
-            return false;
-        }*/
-        return true; //temporary
+    private void getSystemState(){
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitInterface apiService = retrofit.create(retrofitInterface.class);
+        Call<Boolean> state_of_server = apiService.state_of_server();
+        state_of_server.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful()) {
+                    // Set status of the btn according to server repsonse
+                    binding.disableButton.setChecked(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                getSystemState();
+            }
+        });
     }
 
     private Bitmap getBitMapFromView(View view) {
