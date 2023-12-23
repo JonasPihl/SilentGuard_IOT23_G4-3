@@ -1,6 +1,9 @@
 package com.example.face_detection_application.ui.settings;
 
+import static java.lang.Math.pow;
+
 import android.annotation.SuppressLint;
+import android.app.TimePickerDialog;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,9 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.face_detection_application.databinding.FragmentSettingsBinding;
 import com.example.face_detection_application.ui.log.retrofitInterface;
 
-
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,24 +32,23 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
-
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 public class SettingsFragment extends Fragment {
-
     private FragmentSettingsBinding binding;
     private boolean systemEnabled;
     private static final String serverAdress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
-
-
     ImageView colorWheel;
     Bitmap colorBitMap;
     String colorHexValue;
     int red, green, blue;
     Color completeColor;
+    Button timeStartButton;
+    Button timeEndButton;
+    int startHour, startMin;
+    int endHour, endMin;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         SettingsViewModel settingsViewModel =
                 new ViewModelProvider(this).get(SettingsViewModel.class);
@@ -56,17 +58,32 @@ public class SettingsFragment extends Fragment {
 
         getSystemState();
 
-
-
         colorWheel = binding.colorWheel;
         colorWheel.setVisibility(View.INVISIBLE);
+
+        timeStartButton = binding.timeStartButton;
+        timeEndButton = binding.timeEndButton;
+
+        timeStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                createTimePickerDialog(v, true);
+
+            }
+        });
+        timeEndButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                createTimePickerDialog(v, false);
+            }
+        });
 
         binding.disableButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 systemEnabled = !systemEnabled;
-                //binding.disableButton.setChecked(true);
-                //jävla github
                 Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
                 retrofitInterface apiService = retrofit.create(retrofitInterface.class);
                 Call<Void> onOff = apiService.on_off(systemEnabled);
@@ -76,7 +93,7 @@ public class SettingsFragment extends Fragment {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             // Handle success
-                            // todo: Start up the system
+
                             System.out.println("Enabling system");
                         }
 
@@ -90,7 +107,7 @@ public class SettingsFragment extends Fragment {
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             // Handle success
                             binding.disableButton.setChecked(false);
-                            // todo: Shutdown the system
+
                             System.out.println("Disabling system");
                         }
 
@@ -173,38 +190,43 @@ public class SettingsFragment extends Fragment {
         // -Red: 0.675, 0.322
         // -Green: 0.4091, 0.518
         // -Blue: 0.167, 0.04
-        double[] normalizedToOne = new double[3];
-        float red, green, blue;
+//        double[] normalizedToOne = new double[3];
+        double red, green, blue;
 
         red = completeColor.red();
         green = completeColor.green();
         blue = completeColor.blue();
-        normalizedToOne[0] = (red / 255);
-        normalizedToOne[1] = (green / 255);
-        normalizedToOne[2] = (blue / 255);
+//        normalizedToOne[0] = (red / 255);
+//        normalizedToOne[1] = (green / 255);
+//        normalizedToOne[2] = (blue / 255);
         //float red, green, blue;
 
         // Gamma correction for colors
-        if (normalizedToOne[0] > 0.04045) {
-            red = (float) Math.pow(
-                    (normalizedToOne[0] + 0.055) / (1.0 + 0.055), 2.4);
-        } else {
-            red = (float) (normalizedToOne[0] / 12.92);
-        }
+//        if (normalizedToOne[0] > 0.04045) {
+//            red = (float) pow(
+//                    (normalizedToOne[0] + 0.055) / (1.0 + 0.055), 2.4);
+//        } else {
+//            red = (float) (normalizedToOne[0] / 12.92);
+//        }
+//
+//        if (normalizedToOne[1] > 0.04045) {
+//            green = (float) pow((normalizedToOne[1] + 0.055)
+//                    / (1.0 + 0.055), 2.4);
+//        } else {
+//            green = (float) (normalizedToOne[1] / 12.92);
+//        }
+//
+//        if (normalizedToOne[2] > 0.04045) {
+//            blue = (float) pow((normalizedToOne[2] + 0.055)
+//                    / (1.0 + 0.055), 2.4);
+//        } else {
+//            blue = (float) (normalizedToOne[2] / 12.92);
+//        }
 
-        if (normalizedToOne[1] > 0.04045) {
-            green = (float) Math.pow((normalizedToOne[1] + 0.055)
-                    / (1.0 + 0.055), 2.4);
-        } else {
-            green = (float) (normalizedToOne[1] / 12.92);
-        }
-
-        if (normalizedToOne[2] > 0.04045) {
-            blue = (float) Math.pow((normalizedToOne[2] + 0.055)
-                    / (1.0 + 0.055), 2.4);
-        } else {
-            blue = (float) (normalizedToOne[2] / 12.92);
-        }
+        //Gamma correction for colors
+        red = (red > 0.04045f) ? pow((red + 0.055f) / (1.0f + 0.055f), 2.4f) : (red / 12.92f);
+        green = (green > 0.04045f) ? pow((green + 0.055f) / (1.0f + 0.055f), 2.4f) : (green / 12.92f);
+        blue = (blue > 0.04045f) ? pow((blue + 0.055f) / (1.0f + 0.055f), 2.4f) : (blue / 12.92f);
 
         //Convert RBG to XYZ with Wide RGB D65 formula
         float X = (float) (red * 0.649926 + green * 0.103455 + blue * 0.197109);
@@ -267,5 +289,24 @@ public class SettingsFragment extends Fragment {
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
         return bitmap;
+    }
+
+    private void createTimePickerDialog(View view, Boolean bool){
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                if (bool){
+                    startHour = hourOfDay;
+                    startMin = minute;
+                    timeStartButton.setText(String.format("%02d:02d", startHour, startMin));
+                } else {
+                    endHour = hourOfDay;
+                    endMin = minute;
+                    timeEndButton.setText(String.format("%02d:%02d", endHour, endMin));
+                }
+            }
+        };
+        TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), onTimeSetListener, startHour, startMin, true);
+        timePickerDialog.show();
     }
 }
