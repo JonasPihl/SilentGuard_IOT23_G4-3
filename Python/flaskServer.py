@@ -1,6 +1,7 @@
 import os
 import subprocess
 from flask import Flask, jsonify, request, send_from_directory
+import cv2
 
 app = Flask(__name__)
 process = None
@@ -19,9 +20,25 @@ def get_image_list():
 def serve_image(filename):
     return send_from_directory("images", filename)
 
-#@app.route('/video')
-#def get_feed():
-#    call on the subprocess to get the feed
+@app.route('/video')
+def get_feed():
+    global process,running
+
+    if running is True:
+        process.terminate()
+    return Response(get_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+def get_frames():
+    while True:
+        success, frame = cap.read()
+        if not success:
+            break
+        else:
+            _, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
 
 @app.route('/on_off', methods=['POST'])
 def on_off():
