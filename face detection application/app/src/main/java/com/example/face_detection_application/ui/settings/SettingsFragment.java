@@ -65,7 +65,8 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 systemEnabled = !systemEnabled;
-                binding.disableButton.setChecked(true);
+                //binding.disableButton.setChecked(true);
+                //jävla github
                 Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
                 retrofitInterface apiService = retrofit.create(retrofitInterface.class);
                 Call<Void> onOff = apiService.on_off(systemEnabled);

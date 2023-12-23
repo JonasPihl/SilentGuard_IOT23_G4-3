@@ -47,6 +47,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="added Disable System button structure">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_14_12_2023_15_24__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_14_12_2023_15_24__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_12_2023_15_30__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_12_2023_15_30__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-19_11_58__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-19_11_58__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-20_01_09__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-20_01_09__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" afterDir="false" />
     </list>
