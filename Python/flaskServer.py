@@ -4,7 +4,6 @@ from flask import Flask, jsonify, request, send_from_directory
 import cv2
 from flask import Flask, Response, jsonify, request, send_from_directory
 from flask_socketio import SocketIO
-import xml.etree.ElementTree as ET
 
 app = Flask(__name__)
 process = None
@@ -22,6 +21,26 @@ def test_connect():
 @app.route('/state_of_server')
 def state_of_server():
     return jsonify(running)
+
+@app.route('/start_stream')
+def start_stream():
+    global process, running
+    if process is not None:
+        process.terminate()
+    process = subprocess.Popen([
+    '/home/p3/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer',
+    '-i', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -r 640x480',
+    '-o', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w ./www'])
+    #TODO change the path to the mjpg-streamer folder to the correct path in the pi
+    
+    return jsonify({"message": "Success"})
+
+@app.route('/stop_stream')
+def stop_stream():
+    global process, running
+    if process is not None:
+        process.terminate()
+    return jsonify({"message": "Success"})
 
 @app.route('/get_image_list')
 def get_image_list():
@@ -51,37 +70,16 @@ def get_frames():
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-def update_color():
-    # turn off faceDet
-    on_off(0, 0)
-    # wait for daceDet.py to stop
-    # todo insert delay here
-
-    # read color.xml file and save the XY values
-    tree = ET.parse('color.xml')
-    root = tree.getroot()
-    x = float(root.find('x_value').text)
-    y = float(root.find('y_value').text)
-
-    # start up faceDet
-    on_off(x, y)
-
 
 @app.route('/on_off', methods=['POST'])
-def on_off(x, y):
+def on_off():
     global process, running
     try:
         status_request = request.args.get('value')
         if status_request is not None:
             if status_request == "true":
                 running = True
-
-                #Convert int values to strings for sending to subprocess
-                x_str = str(x)
-                y_str = str(y)
-
-                process = subprocess.Popen(["python3", "faceDet.py"], stdin=subprocess.PIPE)
-                process.communicate(input=f"{x_str}\n{y_str}".encode())
+                process = subprocess.Popen(["python3", "faceDet.py"])
             else:
                 running = False
                 process.terminate()

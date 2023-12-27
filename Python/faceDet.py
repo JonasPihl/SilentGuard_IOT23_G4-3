@@ -2,7 +2,7 @@ import cv2
 import os
 import time
 import signal
-import sys
+import xml.etree.ElementTree as ET
 
 # Load the cascade for face detection
 face_cascade = cv2.CascadeClassifier('facedetection.xml')
@@ -43,6 +43,17 @@ def on_off(status_request):
     global on_off_status
     on_off_status = status_request
 
+def update_color():
+    # read color.xml file and save the XY values
+    tree = ET.parse('color.xml')
+    root = tree.getroot()
+
+    xy_values = []
+    xy_values[0] = float(root.find('x_value').text)
+    xy_values[1] = float(root.find('y_value').text)
+
+    return xy_values
+
 def face_detection_loop():
     global on_off_status, user_watching_feed, logged, visitor_detected, last_detected, face_cascade
     cap = cv2.VideoCapture(0)
@@ -66,16 +77,6 @@ def face_detection_loop():
             if not logged:
                 log_visitor(img)
             # Call hue script to start the lights here
-            recieved_color = sys.stdin.read().strip()
-            xy_values = recieved_color.split('/n')
-
-            if len(xy_values) >= 2:
-                x_value = float(xy_values[0])
-                y_value = float(xy_values[1])
-
-                print(f"Received XY values: {x_value}, {y_value}")
-            else:
-                print("No values received.")
 
         elif visitor_detected & len(faces) == 0:
             if time.process_time() - last_detected > 7:
