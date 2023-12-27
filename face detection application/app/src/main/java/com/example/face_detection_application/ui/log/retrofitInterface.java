@@ -19,5 +19,12 @@ public interface retrofitInterface {
 
     @GET("/state_of_server")
     Call<Boolean> state_of_server();
+
+    @GET("/start_stream")
+    Call<Void> start_stream();
+
+    @GET("/stop_stream")
+    Call<Void> stop_stream();
+
 }
 
