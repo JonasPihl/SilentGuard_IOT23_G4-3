@@ -2,11 +2,22 @@ import os
 import subprocess
 from flask import Flask, jsonify, request, send_from_directory
 import cv2
+from flask import Flask, Response, jsonify, request, send_from_directory
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
 process = None
 running = False
+socketio = SocketIO(app)
 
+@socketio.on('message')
+def send_notification(message):
+    socketio.emit('message', message)
+
+@socketio.on('/connect')
+def test_connect():
+    print("Client connected")
+    
 @app.route('/state_of_server')
 def state_of_server():
     return jsonify(running)
