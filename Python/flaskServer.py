@@ -22,6 +22,26 @@ def test_connect():
 def state_of_server():
     return jsonify(running)
 
+@app.route('/start_stream')
+def start_stream():
+    global process, running
+    if process is not None:
+        process.terminate()
+    process = subprocess.Popen([
+    '/home/p3/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer',
+    '-i', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -r 640x480',
+    '-o', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w ./www'])
+    #TODO change the path to the mjpg-streamer folder to the correct path in the pi
+    
+    return jsonify({"message": "Success"})
+
+@app.route('/stop_stream')
+def stop_stream():
+    global process, running
+    if process is not None:
+        process.terminate()
+    return jsonify({"message": "Success"})
+
 @app.route('/get_image_list')
 def get_image_list():
     image_files = [f for f in os.listdir("images") if f.endswith(".jpg")]
