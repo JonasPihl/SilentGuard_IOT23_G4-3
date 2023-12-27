@@ -3,6 +3,7 @@ package com.example.face_detection_application.ui.settings;
 import static java.lang.Math.pow;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -186,42 +187,12 @@ public class SettingsFragment extends Fragment {
     ///
     public static List<Double> getRGBtoHueXY(Color completeColor) {
         // https://developers.meethue.com/develop/application-design-guidance/color-conversion-formulas-rgb-to-xy-and-back/
-        // For the hue bulb the corners of the triangle are:
-        // -Red: 0.675, 0.322
-        // -Green: 0.4091, 0.518
-        // -Blue: 0.167, 0.04
-//        double[] normalizedToOne = new double[3];
         double red, green, blue;
 
+        //Breakout rgb values from color
         red = completeColor.red();
         green = completeColor.green();
         blue = completeColor.blue();
-//        normalizedToOne[0] = (red / 255);
-//        normalizedToOne[1] = (green / 255);
-//        normalizedToOne[2] = (blue / 255);
-        //float red, green, blue;
-
-        // Gamma correction for colors
-//        if (normalizedToOne[0] > 0.04045) {
-//            red = (float) pow(
-//                    (normalizedToOne[0] + 0.055) / (1.0 + 0.055), 2.4);
-//        } else {
-//            red = (float) (normalizedToOne[0] / 12.92);
-//        }
-//
-//        if (normalizedToOne[1] > 0.04045) {
-//            green = (float) pow((normalizedToOne[1] + 0.055)
-//                    / (1.0 + 0.055), 2.4);
-//        } else {
-//            green = (float) (normalizedToOne[1] / 12.92);
-//        }
-//
-//        if (normalizedToOne[2] > 0.04045) {
-//            blue = (float) pow((normalizedToOne[2] + 0.055)
-//                    / (1.0 + 0.055), 2.4);
-//        } else {
-//            blue = (float) (normalizedToOne[2] / 12.92);
-//        }
 
         //Gamma correction for colors
         red = (red > 0.04045f) ? pow((red + 0.055f) / (1.0f + 0.055f), 2.4f) : (red / 12.92f);
@@ -298,7 +269,7 @@ public class SettingsFragment extends Fragment {
                 if (bool){
                     startHour = hourOfDay;
                     startMin = minute;
-                    timeStartButton.setText(String.format("%02d:02d", startHour, startMin));
+                    timeStartButton.setText(String.format("%02d:%02d", startHour, startMin));
                 } else {
                     endHour = hourOfDay;
                     endMin = minute;
@@ -306,7 +277,10 @@ public class SettingsFragment extends Fragment {
                 }
             }
         };
-        TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), onTimeSetListener, startHour, startMin, true);
+
+        int dialogTheme = AlertDialog.THEME_HOLO_LIGHT;
+        TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), dialogTheme, onTimeSetListener, startHour, startMin, true);
+        timePickerDialog.updateTime(0, 0);
         timePickerDialog.show();
     }
 }
