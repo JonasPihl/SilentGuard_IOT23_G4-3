@@ -2,6 +2,7 @@ import cv2
 import os
 import time
 import signal
+import sys
 
 # Load the cascade for face detection
 face_cascade = cv2.CascadeClassifier('facedetection.xml')
@@ -65,6 +66,16 @@ def face_detection_loop():
             if not logged:
                 log_visitor(img)
             # Call hue script to start the lights here
+            recieved_color = sys.stdin.read().strip()
+            xy_values = recieved_color.split('/n')
+
+            if len(xy_values) >= 2:
+                x_value = float(xy_values[0])
+                y_value = float(xy_values[1])
+
+                print(f"Received XY values: {x_value}, {y_value}")
+            else:
+                print("No values received.")
 
         elif visitor_detected & len(faces) == 0:
             if time.process_time() - last_detected > 7:

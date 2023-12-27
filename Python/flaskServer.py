@@ -4,6 +4,7 @@ from flask import Flask, jsonify, request, send_from_directory
 import cv2
 from flask import Flask, Response, jsonify, request, send_from_directory
 from flask_socketio import SocketIO
+import xml.etree.ElementTree as ET
 
 app = Flask(__name__)
 process = None
@@ -52,22 +53,35 @@ def get_frames():
 
 def update_color():
     # turn off faceDet
-    on_off()
+    on_off(0, 0)
     # wait for daceDet.py to stop
-    # read color.xml file with the new colorValues in XY
+    # todo insert delay here
+
+    # read color.xml file and save the XY values
+    tree = ET.parse('color.xml')
+    root = tree.getroot()
+    x = float(root.find('x_value').text)
+    y = float(root.find('y_value').text)
+
     # start up faceDet
-    on_off()
+    on_off(x, y)
 
 
 @app.route('/on_off', methods=['POST'])
-def on_off():
+def on_off(x, y):
     global process, running
     try:
         status_request = request.args.get('value')
         if status_request is not None:
             if status_request == "true":
                 running = True
-                process = subprocess.Popen(["python3", "faceDet.py"])
+
+                #Convert int values to strings for sending to subprocess
+                x_str = str(x)
+                y_str = str(y)
+
+                process = subprocess.Popen(["python3", "faceDet.py"], stdin=subprocess.PIPE)
+                process.communicate(input=f"{x_str}\n{y_str}".encode())
             else:
                 running = False
                 process.terminate()
