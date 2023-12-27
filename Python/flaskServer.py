@@ -50,6 +50,14 @@ def get_frames():
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
+def update_color():
+    # turn off faceDet
+    on_off()
+    # wait for daceDet.py to stop
+    # read color.xml file with the new colorValues in XY
+    # start up faceDet
+    on_off()
+
 
 @app.route('/on_off', methods=['POST'])
 def on_off():

@@ -262,11 +262,11 @@ public class SettingsFragment extends Fragment {
         return bitmap;
     }
 
-    private void createTimePickerDialog(View view, Boolean bool){
+    private void createTimePickerDialog(View view, Boolean isStartTimeButton){
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                if (bool){
+                if (isStartTimeButton){
                     startHour = hourOfDay;
                     startMin = minute;
                     timeStartButton.setText(String.format("%02d:%02d", startHour, startMin));
