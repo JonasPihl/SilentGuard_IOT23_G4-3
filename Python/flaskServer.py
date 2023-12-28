@@ -92,16 +92,20 @@ def on_off():
 
 @app.route('/send-notification')
 def send_notification():
+    print(firebase_admin.credentials)
+
     try:
        # data = request.get_json()
         # Get the FCM registration token from the Android device
         registration_token = "dIaqJX9ARWmLANRkzKrtkh:APA91bEYxqgZ4zxc6XIMLzxh8YTKj8Pe6GKoGU98Kd8vzGYTCy5qIaDvi83b9PjSy2mMBACPT6_8QCi4EPd612CWMyLEY_FmbDed1bGFssKYYdnunQZ4BRmZh1Onwa5-wMhAxog1Cy9I"
+        #registration_token = "dBkkpQw_SWmssAFVVn9xNw:APA91bFmppdKioH02MBg0wdVEFjePWLLpRaX2U5Tp_SKZTlZ8i8Z-nzyyTmipNn1rDuPqFiaJUZ0EFsN8DIHz0EbmUoYvTTCMy29BfxlkhNWRE67HkqYCt4Ivi_-ExMZkY6wbhfmbLhD"
         # Construct the message
         message = messaging.Message(
-            data={
-                'title': 'Test Message',
-                'body': 'this is a test message',
-            },
+            data={'title': "blabla"},
+            notification=messaging.Notification(
+                title= 'Test Message',
+                body= 'this is a test message',
+       ),
             token=registration_token,
         )
         # Send the message
@@ -116,6 +120,7 @@ def send_notification():
 
 if __name__ == '__main__':
     cred = credentials.Certificate("silentguard-8402d-975a61385fb5.json")
+    print(firebase_admin.credentials.ApplicationDefault.get_access_token(cred))
     firebase_admin.initialize_app(cred)
     app.run(host='0.0.0.0', port=5000,debug=True)
 
