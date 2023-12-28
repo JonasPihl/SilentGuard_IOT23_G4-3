@@ -26,6 +26,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.face_detection_application.databinding.ActivityMainBinding;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.net.URI;
 
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
     private ActivityMainBinding binding;
 

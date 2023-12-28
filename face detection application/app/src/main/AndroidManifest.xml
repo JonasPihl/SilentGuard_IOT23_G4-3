@@ -16,6 +16,13 @@
         android:theme="@style/Theme.Face_detection_Application"
         tools:targetApi="31">
 
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
 
 
         <activity
