@@ -5,10 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.face_detection_application.R;
+import com.example.face_detection_application.databinding.LogsItemBinding;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,18 +18,21 @@ public class ImageListAdapter extends ArrayAdapter<Map.Entry<String, String>> {
     private final Context context;
 
     public ImageListAdapter(Context context, List<Map.Entry<String, String>> entries) {
-        super(context, R.layout.logs_item, entries);
+        super(context, 0, entries);
         this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.logs_item, parent, false);
-        }
+        LogsItemBinding binding;
 
-        ImageView imageView = convertView.findViewById(R.id.imageView);
-        TextView textView = convertView.findViewById(R.id.textView);
+        if (convertView == null) {
+            binding = LogsItemBinding.inflate(LayoutInflater.from(context), parent, false);
+            convertView = binding.getRoot();
+            convertView.setTag(binding);
+        } else {
+            binding = (LogsItemBinding) convertView.getTag();
+        }
 
         Map.Entry<String, String> entry = getItem(position);
 
@@ -38,15 +40,13 @@ public class ImageListAdapter extends ArrayAdapter<Map.Entry<String, String>> {
             String filename = entry.getKey().replace(".jpg", "");
             String imageUrl = entry.getValue();
 
-            // Load image using Picasso, a Image Loading library
-            Picasso.get().load(imageUrl).into(imageView);
+            // Load image using Picasso, an Image Loading library
+            Picasso.get().load(imageUrl).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(binding.imageView);
 
             // Set the filename as text
-            textView.setText(filename);
+            binding.textView.setText(filename);
         }
 
         return convertView;
     }
-
-
 }
