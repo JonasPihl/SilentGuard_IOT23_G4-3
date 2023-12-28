@@ -39,7 +39,7 @@ import java.util.stream.DoubleStream;
 public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;
     private boolean systemEnabled;
-    private static final String serverAdress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
+    private static final String serverAdress = "http://192.168.0.13:5000";  // TODO Replace with Pi's IP
     ImageView colorWheel;
     Bitmap colorBitMap;
     String colorHexValue;

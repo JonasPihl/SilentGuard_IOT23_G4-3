@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "547857794908",
+    "project_id": "silentguard-8402d",
+    "storage_bucket": "silentguard-8402d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547857794908:android:8e8ff643dad4b900f8a399",
+        "android_client_info": {
+          "package_name": "com.example.face_detection_application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6ov1PgpNqK7k660Fpp0oUDDjJXhDeQ-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,27 +1,76 @@
 package com.example.face_detection_application;
 
-import android.os.Bundle;
+import static android.content.ContentValues.TAG;
 
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.Manifest;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.face_detection_application.databinding.ActivityMainBinding;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.net.URI;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Declare the launcher at the top of your Activity/Fragment:
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // FCM SDK (and your app) can post notifications.
+                } else {
+                    // TODO: Inform user that that your app will not show notifications.
+                }
+            });
+
+    private void askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                // FCM SDK (and your app) can post notifications.
+                System.out.println("2testtest");
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                // TODO: display an educational UI
+                System.out.println("testtest");
+            } else {
+                // Directly ask for the permission
+                System.out.println("3testtest");
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+    }
+
     private ActivityMainBinding binding;
-    private static final String serverAdress = "http://192.168.1.174:5000/connect";  // TODO Replace with Pi's IP    private OkHttpClient client;
+
+    private static final String serverAdress = "http://192.168.0.13:5000"; //Jonas
+    //private static final String serverAdress = "http://192.168.1.174:5000/connect"; TODO Replace with Pi's IP    private OkHttpClient client;
     private OkHttpClient client;
     private WebSocket webSocket;
 
@@ -40,23 +89,26 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        client = new OkHttpClient();
+        FirebaseApp.initializeApp(this);
+        askNotificationPermission();
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
 
-        Request request = new Request.Builder().url(serverAdress).build();
-
-        webSocket = client.newWebSocket(request, new WebSocketListener() {
-
-            @Override
-            public void onMessage(WebSocket webSocket, String text) {
-                System.out.println("recived psu notification" + text);
-            }
-
-            @Override
-            public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-                super.onFailure(webSocket, t, response);
-            }
-        });
-
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        System.out.println(token);
+                        // Log and toast
+                        //String msg = getString(R.string.msg_token_fmt, token);
+                        //Log.d(TAG, msg);
+                        //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 
