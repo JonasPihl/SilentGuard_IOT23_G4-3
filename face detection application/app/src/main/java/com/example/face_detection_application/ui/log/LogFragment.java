@@ -11,9 +11,15 @@ import androidx.fragment.app.Fragment;
 import com.example.face_detection_application.databinding.FragmentLogBinding;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -58,7 +64,7 @@ public class LogFragment extends Fragment {
             public void onResponse(Call<Map<String, List<String>>> call, Response<Map<String, List<String>>> response) {
                 if (response.isSuccessful()) {
                     Map<String, List<String>> responseBody = response.body();
-
+                    System.out.println(responseBody);
                     if (responseBody != null && responseBody.containsKey("image_list")) {
                         List<Map.Entry<String, String>> imageEntries = new ArrayList<>();
 
@@ -71,9 +77,29 @@ public class LogFragment extends Fragment {
                             imageEntries.add(entry);
                         }
 
+                        // Custom sorter that sorts the images by the their filename dates.
+                        Collections.sort(imageEntries, new Comparator<Map.Entry<String, String>>() {
+                            @Override
+                            public int compare(Map.Entry<String, String> entry1, Map.Entry<String, String> entry2) {
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy(HH:mm)", Locale.getDefault());
+                                try {
+                                    Date date1 = dateFormat.parse(entry1.getKey());
+                                    Date date2 = dateFormat.parse(entry2.getKey());
+                                    return date1.compareTo(date2);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                    return 0;
+                                }
+                            }
+                        });
+
+                        Collections.reverse(imageEntries);
+
+
                         // Update the custom adapter with the new content (Image and corresponding text)
                         ImageListAdapter adapter = new ImageListAdapter(requireContext(), imageEntries);
                         logs.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
                     } else {
                         System.out.println("Response body is null or does not contain 'image_list'");
                     }
