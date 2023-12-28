@@ -49,15 +49,15 @@ public class SettingsFragment extends Fragment {
     //private static final String serverAdress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
     //private static final String serverAdress = "http://192.168.0.13:5000";  // TODO Replace with Pi's IP
     private static final String serverAdress = "http://192.168.10.193:5000";  // TODO Replace with Pi's IP
-    ImageView colorWheel;
-    Bitmap colorBitMap;
-    String colorHexValue;
-    int red, green, blue;
-    Color completeColor;
-    Button timeStartButton;
-    Button timeEndButton;
-    int startHour, startMin;
-    int endHour, endMin;
+    private ImageView colorWheel;
+    private Bitmap colorBitMap;
+    private String colorHexValue;
+    private int red, green, blue;
+    private Color completeColor;
+    private Button timeStartButton;
+    private Button timeEndButton;
+    private int startHour, startMin;
+    private int endHour, endMin;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         SettingsViewModel settingsViewModel =
