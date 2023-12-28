@@ -34,7 +34,7 @@ public class LogFragment extends Fragment {
 
     private FragmentLogBinding binding;
     private ListView logs;
-    private static final String serverAdress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
+    private static final String serverAdress = "http://192.168.0.13:5000";  // TODO Replace with Pi's IP
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

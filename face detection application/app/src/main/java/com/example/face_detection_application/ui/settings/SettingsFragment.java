@@ -49,6 +49,7 @@ public class SettingsFragment extends Fragment {
     private static final String serverAdress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
 
 
+    //private static final String serverAdress = "http://192.168.0.13:5000";  // TODO Replace with Pi's IP
     ImageView colorWheel;
     Bitmap colorBitMap;
     String colorHexValue;
@@ -67,8 +68,6 @@ public class SettingsFragment extends Fragment {
         View root = binding.getRoot();
 
         getSystemState();
-
-
 
         colorWheel = binding.colorWheel;
         colorWheel.setVisibility(View.INVISIBLE);
@@ -96,7 +95,6 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 systemEnabled = !systemEnabled;
-                binding.disableButton.setChecked(true);
                 Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
                 retrofitInterface apiService = retrofit.create(retrofitInterface.class);
                 Call<Void> onOff = apiService.on_off(systemEnabled);
@@ -106,7 +104,7 @@ public class SettingsFragment extends Fragment {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             // Handle success
-                            // todo: Start up the system
+
                             System.out.println("Enabling system");
                         }
 
