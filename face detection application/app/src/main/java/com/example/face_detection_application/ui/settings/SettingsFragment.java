@@ -26,6 +26,9 @@ import com.example.face_detection_application.databinding.FragmentSettingsBindin
 import com.example.face_detection_application.ui.log.retrofitInterface;
 
 import java.util.List;
+import java.util.Map;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,13 +36,19 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
+
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 public class SettingsFragment extends Fragment {
+
     private FragmentSettingsBinding binding;
     private boolean systemEnabled;
     private static final String serverAdress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
+
+
     ImageView colorWheel;
     Bitmap colorBitMap;
     String colorHexValue;
@@ -58,6 +67,8 @@ public class SettingsFragment extends Fragment {
         View root = binding.getRoot();
 
         getSystemState();
+
+
 
         colorWheel = binding.colorWheel;
         colorWheel.setVisibility(View.INVISIBLE);
@@ -85,6 +96,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 systemEnabled = !systemEnabled;
+                binding.disableButton.setChecked(true);
                 Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
                 retrofitInterface apiService = retrofit.create(retrofitInterface.class);
                 Call<Void> onOff = apiService.on_off(systemEnabled);
@@ -94,7 +106,7 @@ public class SettingsFragment extends Fragment {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             // Handle success
-
+                            // todo: Start up the system
                             System.out.println("Enabling system");
                         }
 
