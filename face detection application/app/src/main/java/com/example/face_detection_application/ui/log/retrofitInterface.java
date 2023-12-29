@@ -27,10 +27,10 @@ public interface retrofitInterface {
     Call<Void> stop_stream();
 
     @POST("/updateStartTime")
-    Call<Integer> updateStartTime(@Query("startTime") int start);
+    Call<Integer> updateStartTime(@Query("startHour") int hour, @Query("startMin") int min);
 
     @POST("/updateEndTime")
-    Call<Integer> updateEndTime(@Query("endTime") int end);
+    Call<Integer> updateEndTime(@Query("endHour") int hour, @Query("endMin") int min);
     @POST("/updateColor")
     Call<Double> updateColor(@Query("colorX") double colorX, @Query("colorY") double colorY);
 

@@ -36,6 +36,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+
 
 
 
@@ -145,15 +148,18 @@ public class SettingsFragment extends Fragment {
                     List<Double> XYValues = getRGBtoHueXY(completeColor);
                     System.out.println("This is x: "+ XYValues.get(0) + " This is y: "+ XYValues.get(1));
 
-                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).addConverterFactory(ScalarsConverterFactory.create()).build();
+
                     retrofitInterface apiService = retrofit.create(retrofitInterface.class);
                     Call<Double> updateColor = apiService.updateColor(XYValues.get(0), XYValues.get(1));
 
-                    try {
-                        updateColor.execute();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    updateColor.enqueue(new Callback<Double>() {
+                        @Override
+                        public void onResponse(Call<Double> call, Response<Double> response) {}
+
+                        @Override
+                        public void onFailure(Call<Double> call, Throwable t) {}
+                    });
 
                     if (completeColor != null){
                         getRGBtoHueXY(completeColor);
@@ -295,13 +301,19 @@ public class SettingsFragment extends Fragment {
 
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
                     retrofitInterface apiService = retrofit.create(retrofitInterface.class);
-                    Call<Integer> updateStartTime = apiService.updateStartTime(startHour+startMin);
+                    Call<Integer> updateStartTime = apiService.updateStartTime(startHour, startMin);
 
-                    try {
-                        updateStartTime.execute();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    updateStartTime.enqueue(new Callback<Integer>() {
+                        @Override
+                        public void onResponse(Call<Integer> call, Response<Integer> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Integer> call, Throwable t) {
+
+                        }
+                    });
 
                 } else {
                     endHour = hourOfDay;
@@ -310,13 +322,19 @@ public class SettingsFragment extends Fragment {
 
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
                     retrofitInterface apiService = retrofit.create(retrofitInterface.class);
-                    Call<Integer> updateEndTime = apiService.updateEndTime(endHour+endMin);
+                    Call<Integer> updateEndTime = apiService.updateEndTime(endHour, endMin);
 
-                    try {
-                        updateEndTime.execute();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    updateEndTime.enqueue(new Callback<Integer>() {
+                        @Override
+                        public void onResponse(Call<Integer> call, Response<Integer> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Integer> call, Throwable t) {
+
+                        }
+                    });
                 }
             }
         };
