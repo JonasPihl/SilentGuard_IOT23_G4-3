@@ -25,10 +25,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.face_detection_application.databinding.FragmentSettingsBinding;
 import com.example.face_detection_application.ui.log.retrofitInterface;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,25 +34,17 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-
-
-
-
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 public class SettingsFragment extends Fragment {
-
     private FragmentSettingsBinding binding;
     private boolean systemEnabled;
-    //private static final String serverAdress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
-    //private static final String serverAdress = "http://192.168.0.13:5000";  // TODO Replace with Pi's IP
-    private static final String serverAdress = "http://192.168.10.193:5000";  // TODO Replace with Pi's IP
+    //private static final String serverAddress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
+    //private static final String serverAddress = "http://192.168.0.13:5000";  // TODO Replace with Pi's IP
+    private static final String serverAddress = "http://192.168.10.193:5000";  // TODO Replace with Pi's IP
     private ImageView colorWheel;
     private Bitmap colorBitMap;
-    private String colorHexValue;
-    private int red, green, blue;
     private Color completeColor;
     private Button timeStartButton;
     private Button timeEndButton;
@@ -82,7 +70,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                createTimePickerDialog(v, true);
+                createTimePickerDialog(true);
                 System.out.println(startHour + startMin);
 
             }
@@ -91,7 +79,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                createTimePickerDialog(v, false);
+                createTimePickerDialog(false);
             }
         });
 
@@ -99,7 +87,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 systemEnabled = !systemEnabled;
-                Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
+                Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).build();
                 retrofitInterface apiService = retrofit.create(retrofitInterface.class);
                 Call<Void> onOff = apiService.on_off(systemEnabled);
 
@@ -134,7 +122,7 @@ public class SettingsFragment extends Fragment {
         });
 
         binding.colorButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ClickableViewAccessibility") //Supress accessability warning
+            @SuppressLint("ClickableViewAccessibility") //Suppress accessibility warning
             @Override
             public void onClick(View v) {
                 colorWheel = binding.colorWheel;
@@ -143,12 +131,11 @@ public class SettingsFragment extends Fragment {
 
                 if (isVisible){
                     colorWheel.setVisibility(View.INVISIBLE);
-                    //sendHexToHue(colorHexValue);
 
                     List<Double> XYValues = getRGBtoHueXY(completeColor);
                     System.out.println("After getRGBtoHueXY - This is x: "+ XYValues.get(0) + " This is y: "+ XYValues.get(1));
 
-                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).addConverterFactory(ScalarsConverterFactory.create()).build();
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).addConverterFactory(ScalarsConverterFactory.create()).build();
 
                     retrofitInterface apiService = retrofit.create(retrofitInterface.class);
                     Call<Double> updateColor = apiService.updateColor(XYValues.get(0), XYValues.get(1));
@@ -170,7 +157,6 @@ public class SettingsFragment extends Fragment {
                 }
 
                 colorWheel.setOnTouchListener(new View.OnTouchListener() {
-                    //String startingColor = "#fffe4b3f"; //todo get live colorValue from hue system
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         int x = (int)event.getX();
@@ -181,27 +167,7 @@ public class SettingsFragment extends Fragment {
                             colorBitMap = getBitMapFromView(colorWheel);
                         }
 
-                        //int colorPixels = colorBitMap.getPixel(x, y);
-
                         completeColor = colorBitMap.getColor(x, y);
-
-                        ///
-                        //red = Color.red(colorPixels);
-                        //green = Color.green(colorPixels);
-                        //blue = Color.blue(colorPixels);
-                        ///
-
-                        //colorHexValue = "#"+ Integer.toHexString(colorPixels);
-
-                        //if (colorHexValue.equals("#0")){
-                            //colorHexValue = startingColor;
-                        //}
-
-                        //System.out.println("r g b: " + red + " " + green + " " + blue);
-
-                        //System.out.println(colorPixels);
-
-                        //System.out.println(colorHexValue);
 
                         return true;
                     }
@@ -214,7 +180,7 @@ public class SettingsFragment extends Fragment {
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
-    ///
+
     public static List<Double> getRGBtoHueXY(Color completeColor) {
         // https://developers.meethue.com/develop/application-design-guidance/color-conversion-formulas-rgb-to-xy-and-back/
         double red, green, blue;
@@ -246,20 +212,9 @@ public class SettingsFragment extends Fragment {
         System.out.println(x + " " + y);
         return xyAsList;
     }
-    ///
-
-//    private void sendHexToHue(String colorHexValue){
-//        //todo send colorHexValue to hue
-//        if (colorHexValue != null){
-//            System.out.println(colorHexValue + " sent to hue");
-//        } else {
-//            System.out.println("No color sent to hue.");
-//        }
-//
-//    }
 
     private void getSystemState(){
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitInterface apiService = retrofit.create(retrofitInterface.class);
@@ -268,7 +223,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (response.isSuccessful()) {
-                    // Set status of the btn according to server repsonse
+                    // Set status of the btn according to server response
                     System.out.println(response.body());
                     systemEnabled = response.body();
                     binding.disableButton.setChecked(response.body());
@@ -290,8 +245,9 @@ public class SettingsFragment extends Fragment {
         return bitmap;
     }
 
-    private void createTimePickerDialog(View view, Boolean isStartTimeButton){
+    private void createTimePickerDialog(Boolean isStartTimeButton){
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 if (isStartTimeButton){
@@ -299,7 +255,7 @@ public class SettingsFragment extends Fragment {
                     startMin = minute;
                     timeStartButton.setText(String.format("%02d:%02d", startHour, startMin));
 
-                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).build();
                     retrofitInterface apiService = retrofit.create(retrofitInterface.class);
                     Call<Integer> updateStartTime = apiService.updateStartTime(startHour, startMin);
 
@@ -320,7 +276,7 @@ public class SettingsFragment extends Fragment {
                     endMin = minute;
                     timeEndButton.setText(String.format("%02d:%02d", endHour, endMin));
 
-                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).build();
                     retrofitInterface apiService = retrofit.create(retrofitInterface.class);
                     Call<Integer> updateEndTime = apiService.updateEndTime(endHour, endMin);
 

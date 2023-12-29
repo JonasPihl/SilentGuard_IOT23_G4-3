@@ -46,10 +46,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="ipadress temps">
+    <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="cleanup SettingsFragment">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/assets.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Python/assets.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/log/LogFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/log/LogFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/stream/StreamFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/stream/StreamFragment.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -319,7 +321,14 @@
       <option name="presentableId" value="LOCAL−00012" />
       <updated>1703774544368</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL−00013" summary="cleanup SettingsFragment, commented out parts">
+      <option name="closed" value="true" />
+      <created>1703862737439</created>
+      <option name="number" value="LOCAL−00013" />
+      <option name="presentableId" value="LOCAL−00013" />
+      <updated>1703862737439</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -343,6 +352,8 @@
     <MESSAGE value="fixed disable button toggle" />
     <MESSAGE value="updated rgb colors sent, updated timepicker" />
     <MESSAGE value="ipadress temps" />
-    <option name="LAST_COMMIT_MESSAGE" value="ipadress temps" />
+    <MESSAGE value="cleanup SettingsFragment, commented out parts" />
+    <MESSAGE value="cleanup SettingsFragment" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleanup SettingsFragment" />
   </component>
 </project>
