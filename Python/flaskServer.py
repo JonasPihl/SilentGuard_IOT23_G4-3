@@ -10,10 +10,14 @@ app = Flask(__name__)
 process = None
 running = False
 
-def reboot_FaceDet():
+
+def reboot_face_det():
+    global process
     if process is not None:
         process.terminate()
+
     process = subprocess.Popen(["python3", "faceDet.py"])
+
 
 @app.route('/updateStartTime', methods=['POST'])
 def update_start_time():
@@ -25,6 +29,7 @@ def update_start_time():
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
 
+
 @app.route('/updateEndTime', methods=['POST'])
 def update_end_time():
     try:
@@ -35,6 +40,7 @@ def update_end_time():
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
 
+
 @app.route('/updateColor', methods=['POST'])
 def update_color():
     try:
@@ -44,6 +50,22 @@ def update_color():
     except Exception as e:
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('updateFCMToken', methods=['POST'])
+def update_fcm_token():
+    try:
+        tree = ET.parse('assets.xml')
+        root = tree.getroot()
+
+        xlm_element = root.find("registratation_token")
+        xlm_element.text = 'registratation_token'
+
+        tree.write('assets.xml')
+        return jsonify({"message": "Success"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 def write_values_to_xml(query_value1, query_value2, xml_value1, xml_value2):
     # Fetch input values from Android app
@@ -78,10 +100,10 @@ def start_stream():
     if process is not None:
         process.terminate()
     process = subprocess.Popen([
-    '/home/p3/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer',
-    '-i', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -r 640x480',
-    '-o', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w ./www'])
-    #TODO change the path to the mjpg-streamer folder to the correct path in the pi
+        '/home/p3/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer',
+        '-i', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -r 640x480',
+        '-o', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w ./www'])
+    # TODO change the path to the mjpg-streamer folder to the correct path in the pi
 
     return jsonify({"message": "Success"})
 
@@ -124,7 +146,4 @@ def on_off():
 
 
 if __name__ == '__main__':
-
-    app.run(host='0.0.0.0', port=5000,debug=True)
-
-
+    app.run(host='0.0.0.0', port=5000, debug=True)

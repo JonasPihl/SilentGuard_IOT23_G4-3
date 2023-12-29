@@ -23,12 +23,13 @@ start_hour = 0
 start_minute = 0
 end_hour = 0
 end_minute = 0
+registration_token = None
 
 
 def send_notification():
-    print(firebase_admin.credentials)
 
     try:
+        global registration_token
         # Get the FCM registration token from the Android device
         registration_token = "dIaqJX9ARWmLANRkzKrtkh:APA91bEYxqgZ4zxc6XIMLzxh8YTKj8Pe6GKoGU98Kd8vzGYTCy5qIaDvi83b9PjSy2mMBACPT6_8QCi4EPd612CWMyLEY_FmbDed1bGFssKYYdnunQZ4BRmZh1Onwa5-wMhAxog1Cy9I"
         # registration_token = "dBkkpQw_SWmssAFVVn9xNw:APA91bFmppdKioH02MBg0wdVEFjePWLLpRaX2U5Tp_SKZTlZ8i8Z-nzyyTmipNn1rDuPqFiaJUZ0EFsN8DIHz0EbmUoYvTTCMy29BfxlkhNWRE67HkqYCt4Ivi_-ExMZkY6wbhfmbLhD"
@@ -76,21 +77,15 @@ def on_off(status_request):
     on_off_status = status_request
 
 
-def update_color():
+def set_color():
     # read assets.xml file and save the XY values
     tree = ET.parse('assets.xml')
     root = tree.getroot()
-
-    # xy_values = []
-    # xy_values[0] = float(root.find('x_value').text)
-    # xy_values[1] = float(root.find('y_value').text)
 
     global x_color, y_color
     x_color = float(root.find('x_value').text)
     y_color = float(root.find('y_value').text)
 
-
-# return xy_values
 
 def set_time():
     global start_hour, start_minute, end_hour, end_minute
@@ -102,6 +97,15 @@ def set_time():
 
     end_hour = int(root.find('end_hour').text)
     end_minute = int(root.find('end_min').text)
+
+
+def set_registration_token():
+    global registration_token
+    tree = ET.parse('assets.xml')
+    root = tree.getroot()
+
+    registration_token = root
+
 
 def face_detection_loop():
     global on_off_status, user_watching_feed, logged, visitor_detected, last_detected, face_cascade
@@ -147,10 +151,6 @@ def face_detection_loop():
 
 
 def is_current_time_between():
-    print(time.localtime().tm_hour)
-    print(time.localtime().tm_min)
-    print(start_hour)
-    print(end_hour)
     if start_hour < time.localtime().tm_hour > end_hour:
         return True
     elif start_hour == time.localtime().tm_hour and start_minute < time.localtime().tm_min:
@@ -165,10 +165,13 @@ def call_hue(id):
 
 
 if __name__ == '__main__':
+    #for the notifications on android
     cred = credentials.Certificate("silentguard-8402d-975a61385fb5.json")
     firebase_admin.initialize_app(cred)
 
-    update_color()
+    #sets from assets.xml
+    set_color()
     set_time()
+    set_registration_token()
 
     face_detection_loop()
