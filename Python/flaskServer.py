@@ -18,25 +18,7 @@ def reboot_FaceDet():
 @app.route('/updateStartTime', methods=['POST'])
 def update_start_time():
     try:
-        #change xml file here
-        start_hour = request.args.get('startHour')
-        start_min = request.args.get('startMin')
-
-        print(start_hour, start_min)
-
-        tree = ET.parse('assets.xml')
-        root = tree.getroot()
-
-        # Locate the elements in xml file to update
-        hour_value = root.find('start_hour')
-        min_value = root.find('start_min')
-
-        # Update the values
-        hour_value.text = start_hour
-        min_value.text = start_min
-
-        # Write the changes back to the file
-        tree.write('assets.xml')
+        write_xml_values('startHour', 'startMin', 'start_hour', 'start_min')
 
         return jsonify({"message": "Success"})
     except Exception as e:
@@ -46,25 +28,7 @@ def update_start_time():
 @app.route('/updateEndTime', methods=['POST'])
 def update_end_time():
     try:
-        #change xml file here
-        end_hour = request.args.get('endHour')
-        end_min = request.args.get('endMin')
-
-        print(end_hour, end_min)
-
-        tree = ET.parse('assets.xml')
-        root = tree.getroot()
-
-        # Locate the elements in xml file to update
-        hour_value = root.find('end_hour')
-        min_value = root.find('end_min')
-
-        # Update the values
-        hour_value.text = end_hour
-        min_value.text = end_min
-
-        # Write the changes back to the file
-        tree.write('assets.xml')
+        write_xml_values('endHour', 'endMin', 'end_hour', 'end_min')
 
         return jsonify({"message": "Success"})
     except Exception as e:
@@ -74,30 +38,34 @@ def update_end_time():
 @app.route('/updateColor', methods=['POST'])
 def update_color():
     try:
-        #change xml file here
-        x_color = request.args.get('colorX')
-        y_color = request.args.get('colorY')
-
-        print(x_color, y_color)
-
-        tree = ET.parse('assets.xml')
-        root = tree.getroot()
-
-        # Locate the elements in xml file to update
-        x_value = root.find('x_value')
-        y_value = root.find('y_value')
-
-        # Update the values
-        x_value.text = x_color
-        y_value.text = y_color
-
-        # Write the changes back to the file
-        tree.write('assets.xml')
+        write_xml_values('colorX', 'colorY', 'x_value', 'y_value')
 
         return jsonify({"message": "Success"})
     except Exception as e:
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
+
+def write_xml_values(query_value1, query_value2, xml_value1, xml_value2):
+    # Fetch input values from Android app
+    write_value1 = request.args.get(query_value1)
+    write_value2 = request.args.get(query_value2)
+
+    print(write_value1, write_value2)
+
+    tree = ET.parse('assets.xml')
+    root = tree.getroot()
+
+    # Locate the elements in xml file to update
+    xml_element1 = root.find(xml_value1)
+    xml_element2 = root.find(xml_value2)
+
+    # Update the values in xml file
+    xml_element1.text = write_value1
+    xml_element2.text = write_value2
+
+    # Write the changes back to the file
+    tree.write('assets.xml')
+
 
 @app.route('/state_of_server')
 def state_of_server():
