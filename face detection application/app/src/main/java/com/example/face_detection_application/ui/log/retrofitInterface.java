@@ -32,7 +32,7 @@ public interface retrofitInterface {
     @POST("/updateEndTime")
     Call<Integer> updateEndTime(@Query("endTime") int end);
     @POST("/updateColor")
-    Call<Float> updateColor(@Query("colorX") float colorX, @Query("colorY") float colorY);
+    Call<Double> updateColor(@Query("colorX") double colorX, @Query("colorY") double colorY);
 
 
 
