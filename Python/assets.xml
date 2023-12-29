@@ -6,8 +6,11 @@
     <y_value></y_value>
 
     <!-- Start/Stop time for lights -->
-    <start_time></start_time>
-    <end_time></end_time>
+    <start_hour></start_hour>
+    <start_min></start_min>
+
+    <end_hour></end_hour>
+    <end_min></end_min>
 
     <!-- FCM registration token -->
     <registratation_token></registratation_token>

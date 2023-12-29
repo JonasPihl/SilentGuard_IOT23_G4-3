@@ -26,8 +26,9 @@ import retrofit2.Retrofit;
 
 public class StreamFragment extends Fragment {
 
-    private static final String serverAddress = "http://192.168.1.174";
+    //private static final String serverAddress = "http://192.168.1.174";
     //private static final String serverAddress = "http://192.168.0.13";
+    private static final String serverAddress = "http://192.168.10.193";
 
     private FragmentStreamBinding binding;
 
