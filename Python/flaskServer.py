@@ -10,6 +10,7 @@ app = Flask(__name__)
 process = None
 running = False
 
+
 @app.route('/updateStartTime', methods=['POST'])
 def updateStartTime():
     try:
@@ -19,7 +20,8 @@ def updateStartTime():
     except Exception as e:
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
-    
+
+
 @app.route('/updateEndTime', methods=['POST'])
 def updateEndTime():
     try:
@@ -29,14 +31,16 @@ def updateEndTime():
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
 
-@app.route('/updateColor', methods=['POST'])
-def updateEndTime():
-    try:
-        #change xml file here
-        return jsonify({"message": "Success"})
-    except Exception as e:
-        # Log the exception or handle it as needed
-        return jsonify({"error": str(e)}), 500
+
+#@app.route('/updateColor', methods=['POST'])
+#def updateEndTime():
+#    try:
+##        #change xml file here
+ #       return jsonify({"message": "Success"})
+ #   except Exception as e:
+ #       # Log the exception or handle it as needed
+ #       return jsonify({"error": str(e)}), 500
+
 
 @app.route('/state_of_server')
 def state_of_server():

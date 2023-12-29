@@ -80,6 +80,15 @@ def update_color():
 
     return xy_values
 
+def set_time():
+    tree = ET.parse('Python/assets.xml')
+    root = tree.getroot()
+
+    start_hour = int(root.find('start_hour').text)
+    start_minute = int(root.find('start_minute').text)
+
+    end_hour = int(root.find('end_hour').text)
+    end_minute = int(root.find('end_minute').text)
 
 def face_detection_loop():
     global on_off_status, user_watching_feed, logged, visitor_detected, last_detected, face_cascade
@@ -108,8 +117,9 @@ def face_detection_loop():
                 print(str(len(faces)) + " faces detected")
                 log_visitor(img)
                 send_notification()
-                hue_prestate = hue.get_state_of_light(1)
-                hue.alarm_state(1, 0.4, 0.4)
+                if :
+                    hue_prestate = hue.get_state_of_light(1)
+                    hue.alarm_state(1, 0.4, 0.4)
 
         elif visitor_detected and len(faces) == 0:
             if time.process_time() - last_detected > 7:
@@ -118,8 +128,11 @@ def face_detection_loop():
                 # Call hue script to stop the lights here
                 hue.pre_state(1,hue_prestate)
 
+
 if __name__ == '__main__':
     cred = credentials.Certificate("Python/silentguard-8402d-975a61385fb5.json")
     firebase_admin.initialize_app(cred)
+
+    set_time()
 
     face_detection_loop()
