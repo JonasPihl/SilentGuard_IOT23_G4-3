@@ -23,27 +23,23 @@ def send_notification():
     print(firebase_admin.credentials)
 
     try:
-       # data = request.get_json()
         # Get the FCM registration token from the Android device
         registration_token = "dIaqJX9ARWmLANRkzKrtkh:APA91bEYxqgZ4zxc6XIMLzxh8YTKj8Pe6GKoGU98Kd8vzGYTCy5qIaDvi83b9PjSy2mMBACPT6_8QCi4EPd612CWMyLEY_FmbDed1bGFssKYYdnunQZ4BRmZh1Onwa5-wMhAxog1Cy9I"
         #registration_token = "dBkkpQw_SWmssAFVVn9xNw:APA91bFmppdKioH02MBg0wdVEFjePWLLpRaX2U5Tp_SKZTlZ8i8Z-nzyyTmipNn1rDuPqFiaJUZ0EFsN8DIHz0EbmUoYvTTCMy29BfxlkhNWRE67HkqYCt4Ivi_-ExMZkY6wbhfmbLhD"
         # Construct the message
         message = messaging.Message(
-            data={'title': "blabla"},
+            data={},
             notification=messaging.Notification(
-                title= 'Test Message',
-                body= 'this is a test message',
+                title= 'Visitor Detected',
+                body= 'We have detected an visitor',
        ),
             token=registration_token,
         )
         # Send the message
         response = messaging.send(message)
         print(response)
-
-        return jsonify({"success": True, "response": response}), 200
-
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
+        return "failed"
 
 
 def signal_handler(signum, frame):
@@ -89,6 +85,8 @@ def face_detection_loop():
     global on_off_status, user_watching_feed, logged, visitor_detected, last_detected, face_cascade
     cap = cv2.VideoCapture(0)
 
+    hue_prestate = None
+    alarm_time = 0
     while True:
         # Read the frame
         _, img = cap.read()
@@ -100,21 +98,25 @@ def face_detection_loop():
         if user_watching_feed:
             # send image feed to the android application here
             print("Sending image feed to android application")
+        print(visitor_detected)
+        print(len(faces))
 
         if len(faces) > 0:
             last_detected = time.process_time()
-            print(str(len(faces)) + " faces detected")
             visitor_detected = True
             if not logged:
+                print(str(len(faces)) + " faces detected")
                 log_visitor(img)
                 send_notification()
+                hue_prestate = hue.get_state_of_light(1)
+                hue.alarm_state(1, 0.4, 0.4)
 
-        elif visitor_detected & len(faces) == 0:
+        elif visitor_detected and len(faces) == 0:
             if time.process_time() - last_detected > 7:
                 visitor_detected = False
                 logged = False
                 # Call hue script to stop the lights here
-
+                hue.pre_state(1,hue_prestate)
 
 if __name__ == '__main__':
     cred = credentials.Certificate("Python/silentguard-8402d-975a61385fb5.json")
