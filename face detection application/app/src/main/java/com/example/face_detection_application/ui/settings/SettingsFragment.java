@@ -255,7 +255,7 @@ public class SettingsFragment extends Fragment {
                     startMin = minute;
                     timeStartButton.setText(String.format("%02d:%02d", startHour, startMin));
 
-                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).build();
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).addConverterFactory(ScalarsConverterFactory.create()).build();
                     retrofitInterface apiService = retrofit.create(retrofitInterface.class);
                     Call<Integer> updateStartTime = apiService.updateStartTime(startHour, startMin);
 
@@ -276,7 +276,7 @@ public class SettingsFragment extends Fragment {
                     endMin = minute;
                     timeEndButton.setText(String.format("%02d:%02d", endHour, endMin));
 
-                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).build();
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).addConverterFactory(ScalarsConverterFactory.create()).build();
                     retrofitInterface apiService = retrofit.create(retrofitInterface.class);
                     Call<Integer> updateEndTime = apiService.updateEndTime(endHour, endMin);
 
