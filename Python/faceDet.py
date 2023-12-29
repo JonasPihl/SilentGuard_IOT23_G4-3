@@ -74,8 +74,8 @@ def on_off(status_request):
     on_off_status = status_request
 
 def update_color():
-    # read credentials.xml file and save the XY values
-    tree = ET.parse('Python/credentials.xml')
+    # read assets.xml file and save the XY values
+    tree = ET.parse('Python/assets.xml')
     root = tree.getroot()
 
     xy_values = []
