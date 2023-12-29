@@ -1,14 +1,14 @@
 <data>
     
-    <x_value>0.12361634522676468</x_value>
-    <y_value>0.7295388579368591</y_value>
+    <x_value>0.13187310099601746</x_value>
+    <y_value>0.7444634437561035</y_value>
 
     
-    <start_hour />
-    <start_min />
+    <start_hour>3</start_hour>
+    <start_min>0</start_min>
 
-    <end_hour />
-    <end_min />
+    <end_hour>7</end_hour>
+    <end_min>0</end_min>
 
     
     <registratation_token />
