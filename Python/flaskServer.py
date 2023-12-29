@@ -18,7 +18,7 @@ def reboot_FaceDet():
 @app.route('/updateStartTime', methods=['POST'])
 def update_start_time():
     try:
-        write_xml_values('startHour', 'startMin', 'start_hour', 'start_min')
+        write_values_to_xml('startHour', 'startMin', 'start_hour', 'start_min')
 
         return jsonify({"message": "Success"})
     except Exception as e:
@@ -28,7 +28,7 @@ def update_start_time():
 @app.route('/updateEndTime', methods=['POST'])
 def update_end_time():
     try:
-        write_xml_values('endHour', 'endMin', 'end_hour', 'end_min')
+        write_values_to_xml('endHour', 'endMin', 'end_hour', 'end_min')
 
         return jsonify({"message": "Success"})
     except Exception as e:
@@ -38,14 +38,14 @@ def update_end_time():
 @app.route('/updateColor', methods=['POST'])
 def update_color():
     try:
-        write_xml_values('colorX', 'colorY', 'x_value', 'y_value')
+        write_values_to_xml('colorX', 'colorY', 'x_value', 'y_value')
 
         return jsonify({"message": "Success"})
     except Exception as e:
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
 
-def write_xml_values(query_value1, query_value2, xml_value1, xml_value2):
+def write_values_to_xml(query_value1, query_value2, xml_value1, xml_value2):
     # Fetch input values from Android app
     write_value1 = request.args.get(query_value1)
     write_value2 = request.args.get(query_value2)
