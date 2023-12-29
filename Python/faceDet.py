@@ -1,3 +1,4 @@
+from flask import jsonify
 import hue
 import cv2
 import os
