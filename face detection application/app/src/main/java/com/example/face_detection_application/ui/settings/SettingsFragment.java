@@ -143,10 +143,10 @@ public class SettingsFragment extends Fragment {
 
                 if (isVisible){
                     colorWheel.setVisibility(View.INVISIBLE);
-                    sendHexToHue(colorHexValue);
+                    //sendHexToHue(colorHexValue);
 
                     List<Double> XYValues = getRGBtoHueXY(completeColor);
-                    System.out.println("This is x: "+ XYValues.get(0) + " This is y: "+ XYValues.get(1));
+                    System.out.println("After getRGBtoHueXY - This is x: "+ XYValues.get(0) + " This is y: "+ XYValues.get(1));
 
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).addConverterFactory(ScalarsConverterFactory.create()).build();
 
@@ -170,7 +170,7 @@ public class SettingsFragment extends Fragment {
                 }
 
                 colorWheel.setOnTouchListener(new View.OnTouchListener() {
-                    String startingColor = "#fffe4b3f"; //todo get live colorValue from hue system
+                    //String startingColor = "#fffe4b3f"; //todo get live colorValue from hue system
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         int x = (int)event.getX();
@@ -181,27 +181,27 @@ public class SettingsFragment extends Fragment {
                             colorBitMap = getBitMapFromView(colorWheel);
                         }
 
-                        int colorPixels = colorBitMap.getPixel(x, y);
+                        //int colorPixels = colorBitMap.getPixel(x, y);
 
                         completeColor = colorBitMap.getColor(x, y);
 
                         ///
-                        red = Color.red(colorPixels);
-                        green = Color.green(colorPixels);
-                        blue = Color.blue(colorPixels);
+                        //red = Color.red(colorPixels);
+                        //green = Color.green(colorPixels);
+                        //blue = Color.blue(colorPixels);
                         ///
 
-                        colorHexValue = "#"+ Integer.toHexString(colorPixels);
+                        //colorHexValue = "#"+ Integer.toHexString(colorPixels);
 
-                        if (colorHexValue.equals("#0")){
-                            colorHexValue = startingColor;
-                        }
+                        //if (colorHexValue.equals("#0")){
+                            //colorHexValue = startingColor;
+                        //}
 
-                        System.out.println("r g b: " + red + " " + green + " " + blue);
+                        //System.out.println("r g b: " + red + " " + green + " " + blue);
 
-                        System.out.println(colorPixels);
+                        //System.out.println(colorPixels);
 
-                        System.out.println(colorHexValue);
+                        //System.out.println(colorHexValue);
 
                         return true;
                     }
@@ -248,15 +248,15 @@ public class SettingsFragment extends Fragment {
     }
     ///
 
-    private void sendHexToHue(String colorHexValue){
-        //todo send colorHexValue to hue
-        if (colorHexValue != null){
-            System.out.println(colorHexValue + " sent to hue");
-        } else {
-            System.out.println("No color sent to hue.");
-        }
-
-    }
+//    private void sendHexToHue(String colorHexValue){
+//        //todo send colorHexValue to hue
+//        if (colorHexValue != null){
+//            System.out.println(colorHexValue + " sent to hue");
+//        } else {
+//            System.out.println("No color sent to hue.");
+//        }
+//
+//    }
 
     private void getSystemState(){
         Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress)
