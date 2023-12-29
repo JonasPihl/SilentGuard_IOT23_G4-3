@@ -5,8 +5,7 @@ import cv2
 from flask import Flask, Response, jsonify, request, send_from_directory
 from flask_socketio import SocketIO
 import xml.etree.ElementTree as ET
-import firebase_admin
-from firebase_admin import credentials, messaging
+
 
 app = Flask(__name__)
 process = None
@@ -51,27 +50,6 @@ def serve_image(filename):
     return send_from_directory("images", filename)
 
 
-@app.route('/video')
-def get_feed():
-    global process, running
-
-    if running is True:
-        process.terminate()
-    return Response(get_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
-def get_frames():
-    while True:
-        success, frame = cap.read()
-        if not success:
-            break
-        else:
-            _, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-
-
 @app.route('/on_off', methods=['POST'])
 def on_off():
     global process, running
@@ -90,38 +68,8 @@ def on_off():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/send-notification')
-def send_notification():
-    print(firebase_admin.credentials)
-
-    try:
-       # data = request.get_json()
-        # Get the FCM registration token from the Android device
-        registration_token = "dIaqJX9ARWmLANRkzKrtkh:APA91bEYxqgZ4zxc6XIMLzxh8YTKj8Pe6GKoGU98Kd8vzGYTCy5qIaDvi83b9PjSy2mMBACPT6_8QCi4EPd612CWMyLEY_FmbDed1bGFssKYYdnunQZ4BRmZh1Onwa5-wMhAxog1Cy9I"
-        #registration_token = "dBkkpQw_SWmssAFVVn9xNw:APA91bFmppdKioH02MBg0wdVEFjePWLLpRaX2U5Tp_SKZTlZ8i8Z-nzyyTmipNn1rDuPqFiaJUZ0EFsN8DIHz0EbmUoYvTTCMy29BfxlkhNWRE67HkqYCt4Ivi_-ExMZkY6wbhfmbLhD"
-        # Construct the message
-        message = messaging.Message(
-            data={'title': "blabla"},
-            notification=messaging.Notification(
-                title= 'Test Message',
-                body= 'this is a test message',
-       ),
-            token=registration_token,
-        )
-        # Send the message
-        response = messaging.send(message)
-        print(response)
-
-        return jsonify({"success": True, "response": response}), 200
-
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
-
-
 if __name__ == '__main__':
-    cred = credentials.Certificate("silentguard-8402d-975a61385fb5.json")
-    print(firebase_admin.credentials.ApplicationDefault.get_access_token(cred))
-    firebase_admin.initialize_app(cred)
+
     app.run(host='0.0.0.0', port=5000,debug=True)
 
 
