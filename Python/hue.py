@@ -16,7 +16,7 @@ def get_url():
 
 
 def alarm_state(id,xcolor,ycolor):
-    requests.put(f'{get_url()}/lights/{id}/state', json.dumps({"xy": [xcolor, ycolor], "alert": "select"}))
+    requests.put(f'{get_url()}/lights/{id}/state', json.dumps({"xy": [xcolor, ycolor], "alert": "lselect"}))
     return None
 
 
