@@ -26,5 +26,17 @@ public interface retrofitInterface {
     @GET("/stop_stream")
     Call<Void> stop_stream();
 
+    @POST("/updateStartTime")
+    Call<Integer> updateStartTime(@Query("startTime") int start);
+
+    @POST("/updateEndTime")
+    Call<Integer> updateEndTime(@Query("endTime") int end);
+    @POST("/updateColor")
+    Call<Float> updateColor(@Query("colorX") float colorX, @Query("colorY") float colorY);
+
+
+
+
+
 }
 
