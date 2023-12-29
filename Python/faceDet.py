@@ -9,7 +9,7 @@ import firebase_admin
 from firebase_admin import credentials, messaging
 
 # Load the cascade for face detection
-face_cascade = cv2.CascadeClassifier('facedetection.xml')
+face_cascade = cv2.CascadeClassifier('Python/facedetection.xml')
 
 # To capture video from webcam. 
 
@@ -58,7 +58,7 @@ def log_visitor(captured_image):
         date_to_save[3]) + ":" + str(date_to_save[4]) + ")"
 
     # Saves the image to the selected path
-    path = 'images'
+    path = 'Python/images'
     cv2.imwrite(os.path.join(path, date_string + '.jpg'), captured_image)
 
     # ensure that we only log the visit 1 time
@@ -70,8 +70,8 @@ def on_off(status_request):
     on_off_status = status_request
 
 def update_color():
-    # read color.xml file and save the XY values
-    tree = ET.parse('color.xml')
+    # read assets.xml file and save the XY values
+    tree = ET.parse('Python/assets.xml')
     root = tree.getroot()
 
     xy_values = []
@@ -119,7 +119,7 @@ def face_detection_loop():
                 hue.pre_state(1,hue_prestate)
 
 if __name__ == '__main__':
-    cred = credentials.Certificate("silentguard-8402d-975a61385fb5.json")
+    cred = credentials.Certificate("Python/silentguard-8402d-975a61385fb5.json")
     firebase_admin.initialize_app(cred)
 
     face_detection_loop()

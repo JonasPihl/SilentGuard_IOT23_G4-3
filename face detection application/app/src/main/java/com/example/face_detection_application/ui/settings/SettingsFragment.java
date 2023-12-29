@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.face_detection_application.databinding.FragmentSettingsBinding;
 import com.example.face_detection_application.ui.log.retrofitInterface;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -46,9 +47,9 @@ public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
     private boolean systemEnabled;
-    //private static final String serverAdress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
+    private static final String serverAdress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
     //private static final String serverAdress = "http://192.168.0.13:5000";  // TODO Replace with Pi's IP
-    private static final String serverAdress = "http://192.168.10.193:5000";  // TODO Replace with Pi's IP
+    //private static final String serverAdress = "http://192.168.10.193:5000";  // TODO Replace with Pi's IP
     private ImageView colorWheel;
     private Bitmap colorBitMap;
     private String colorHexValue;
@@ -79,6 +80,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
 
                 createTimePickerDialog(v, true);
+                System.out.println(startHour + startMin);
 
             }
         });
@@ -139,6 +141,19 @@ public class SettingsFragment extends Fragment {
                 if (isVisible){
                     colorWheel.setVisibility(View.INVISIBLE);
                     sendHexToHue(colorHexValue);
+
+                    List<Double> XYValues = getRGBtoHueXY(completeColor);
+                    System.out.println("This is x: "+ XYValues.get(0) + " This is y: "+ XYValues.get(1));
+
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
+                    retrofitInterface apiService = retrofit.create(retrofitInterface.class);
+                    Call<Double> updateColor = apiService.updateColor(XYValues.get(0), XYValues.get(1));
+
+                    try {
+                        updateColor.execute();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
                     if (completeColor != null){
                         getRGBtoHueXY(completeColor);
@@ -226,11 +241,7 @@ public class SettingsFragment extends Fragment {
         return xyAsList;
     }
     ///
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
+
     private void sendHexToHue(String colorHexValue){
         //todo send colorHexValue to hue
         if (colorHexValue != null){
@@ -252,6 +263,8 @@ public class SettingsFragment extends Fragment {
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (response.isSuccessful()) {
                     // Set status of the btn according to server repsonse
+                    System.out.println(response.body());
+                    systemEnabled = response.body();
                     binding.disableButton.setChecked(response.body());
                 }
             }
@@ -279,10 +292,31 @@ public class SettingsFragment extends Fragment {
                     startHour = hourOfDay;
                     startMin = minute;
                     timeStartButton.setText(String.format("%02d:%02d", startHour, startMin));
+
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
+                    retrofitInterface apiService = retrofit.create(retrofitInterface.class);
+                    Call<Integer> updateStartTime = apiService.updateStartTime(startHour+startMin);
+
+                    try {
+                        updateStartTime.execute();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
                 } else {
                     endHour = hourOfDay;
                     endMin = minute;
                     timeEndButton.setText(String.format("%02d:%02d", endHour, endMin));
+
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAdress).build();
+                    retrofitInterface apiService = retrofit.create(retrofitInterface.class);
+                    Call<Integer> updateEndTime = apiService.updateEndTime(endHour+endMin);
+
+                    try {
+                        updateEndTime.execute();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         };
@@ -291,5 +325,17 @@ public class SettingsFragment extends Fragment {
         TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), dialogTheme, onTimeSetListener, startHour, startMin, true);
         timePickerDialog.updateTime(0, 0);
         timePickerDialog.show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getSystemState();
     }
 }
