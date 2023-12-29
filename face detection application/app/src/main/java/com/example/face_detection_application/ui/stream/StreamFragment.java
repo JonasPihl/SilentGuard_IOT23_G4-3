@@ -1,12 +1,7 @@
 package com.example.face_detection_application.ui.stream;
 
-import android.graphics.SurfaceTexture;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Surface;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -26,8 +21,9 @@ import retrofit2.Retrofit;
 
 public class StreamFragment extends Fragment {
 
-    private static final String serverAddress = "http://192.168.1.174";
+    //private static final String serverAddress = "http://192.168.1.174";
     //private static final String serverAddress = "http://192.168.0.13";
+    private static final String serverAddress = "http://192.168.10.193";
 
     private FragmentStreamBinding binding;
 

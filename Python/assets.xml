@@ -1,14 +1,15 @@
-<?xml version="1.0"?>
-
 <data>
-    <!-- Color XY values -->
-    <x_value></x_value>
-    <y_value></y_value>
+    
+    <x_value>0.12361634522676468</x_value>
+    <y_value>0.7295388579368591</y_value>
 
-    <!-- Start/Stop time for lights -->
-    <start_time></start_time>
-    <end_time></end_time>
+    
+    <start_hour />
+    <start_min />
 
-    <!-- FCM registration token -->
-    <registratation_token></registratation_token>
+    <end_hour />
+    <end_min />
+
+    
+    <registratation_token />
 </data>

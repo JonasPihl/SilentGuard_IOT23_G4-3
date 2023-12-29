@@ -10,33 +10,62 @@ app = Flask(__name__)
 process = None
 running = False
 
+def reboot_FaceDet():
+    if process is not None:
+        process.terminate()
+    process = subprocess.Popen(["python3", "faceDet.py"])
+
 @app.route('/updateStartTime', methods=['POST'])
-def updateStartTime():
+def update_start_time():
     try:
-        #change xml file here
+        write_xml_values('startHour', 'startMin', 'start_hour', 'start_min')
 
         return jsonify({"message": "Success"})
     except Exception as e:
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
-    
+
 @app.route('/updateEndTime', methods=['POST'])
-def updateEndTime():
+def update_end_time():
     try:
-        #change xml file here
+        write_xml_values('endHour', 'endMin', 'end_hour', 'end_min')
+
         return jsonify({"message": "Success"})
     except Exception as e:
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
 
 @app.route('/updateColor', methods=['POST'])
-def updateEndTime():
+def update_color():
     try:
-        #change xml file here
+        write_xml_values('colorX', 'colorY', 'x_value', 'y_value')
+
         return jsonify({"message": "Success"})
     except Exception as e:
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
+
+def write_xml_values(query_value1, query_value2, xml_value1, xml_value2):
+    # Fetch input values from Android app
+    write_value1 = request.args.get(query_value1)
+    write_value2 = request.args.get(query_value2)
+
+    print(write_value1, write_value2)
+
+    tree = ET.parse('assets.xml')
+    root = tree.getroot()
+
+    # Locate the elements in xml file to update
+    xml_element1 = root.find(xml_value1)
+    xml_element2 = root.find(xml_value2)
+
+    # Update the values in xml file
+    xml_element1.text = write_value1
+    xml_element2.text = write_value2
+
+    # Write the changes back to the file
+    tree.write('assets.xml')
+
 
 @app.route('/state_of_server')
 def state_of_server():
@@ -53,7 +82,7 @@ def start_stream():
     '-i', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -r 640x480',
     '-o', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w ./www'])
     #TODO change the path to the mjpg-streamer folder to the correct path in the pi
-    
+
     return jsonify({"message": "Success"})
 
 
@@ -84,7 +113,7 @@ def on_off():
         if status_request is not None:
             if status_request == "true":
                 running = True
-                process = subprocess.Popen(["python3", "Python/faceDet.py"])
+                process = subprocess.Popen(["python3", "faceDet.py"])
             else:
                 running = False
                 process.terminate()
@@ -92,21 +121,6 @@ def on_off():
     except Exception as e:
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
-
-def write_color_to_xml():
-    tree = ET.parse('assets.xml')
-    root = tree.getroot()
-
-    # Locate the elements in xml file to update
-    x_value = root.find('x_value')
-    y_value = root.find('y_value')
-
-    # Update the values
-    x_value.text = ''  # Update value1 to 42
-    y_value.text = '7.77'  # Update value2 to 7.77
-
-    # Write the changes back to the file
-    tree.write('data.xml')
 
 
 if __name__ == '__main__':
