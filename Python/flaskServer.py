@@ -41,13 +41,13 @@ def stop_stream():
 
 @app.route('/get_image_list')
 def get_image_list():
-    image_files = [f for f in os.listdir("images") if f.endswith(".jpg")]
+    image_files = [f for f in os.listdir("Python/images") if f.endswith(".jpg")]
     return jsonify({"image_list": image_files})
 
 
 @app.route('/images/<path:filename>')
 def serve_image(filename):
-    return send_from_directory("images", filename)
+    return send_from_directory("Python/images", filename)
 
 
 @app.route('/on_off', methods=['POST'])
@@ -58,7 +58,7 @@ def on_off():
         if status_request is not None:
             if status_request == "true":
                 running = True
-                process = subprocess.Popen(["python3", "faceDet.py"])
+                process = subprocess.Popen(["python3", "Python/faceDet.py"])
             else:
                 running = False
                 process.terminate()
