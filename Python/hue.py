@@ -28,7 +28,7 @@ def define_pre_state(id):
 
 def pre_state(id,prestate):
     x = json.loads(prestate)
-    print(x)
+    print(prestate)
     requests.put(f'{get_url()}/lights/{id}/state', json.dumps(x["state"]))
     requests.put(f'{get_url()}/lights/{id}/state', json.dumps({"alert": "none"}))
 

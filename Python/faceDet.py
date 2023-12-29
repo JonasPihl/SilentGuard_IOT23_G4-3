@@ -17,6 +17,12 @@ logged = False
 visitor_detected = False
 last_detected = 0.0
 user_watching_feed = False
+x_color = 0.0
+y_color = 0.0
+start_hour = 0
+start_minute = 0
+end_hour = 0
+end_minute = 0
 
 
 def send_notification():
@@ -25,14 +31,14 @@ def send_notification():
     try:
         # Get the FCM registration token from the Android device
         registration_token = "dIaqJX9ARWmLANRkzKrtkh:APA91bEYxqgZ4zxc6XIMLzxh8YTKj8Pe6GKoGU98Kd8vzGYTCy5qIaDvi83b9PjSy2mMBACPT6_8QCi4EPd612CWMyLEY_FmbDed1bGFssKYYdnunQZ4BRmZh1Onwa5-wMhAxog1Cy9I"
-        #registration_token = "dBkkpQw_SWmssAFVVn9xNw:APA91bFmppdKioH02MBg0wdVEFjePWLLpRaX2U5Tp_SKZTlZ8i8Z-nzyyTmipNn1rDuPqFiaJUZ0EFsN8DIHz0EbmUoYvTTCMy29BfxlkhNWRE67HkqYCt4Ivi_-ExMZkY6wbhfmbLhD"
+        # registration_token = "dBkkpQw_SWmssAFVVn9xNw:APA91bFmppdKioH02MBg0wdVEFjePWLLpRaX2U5Tp_SKZTlZ8i8Z-nzyyTmipNn1rDuPqFiaJUZ0EFsN8DIHz0EbmUoYvTTCMy29BfxlkhNWRE67HkqYCt4Ivi_-ExMZkY6wbhfmbLhD"
         # Construct the message
         message = messaging.Message(
             data={},
             notification=messaging.Notification(
-                title= 'Visitor Detected',
-                body= 'We have detected an visitor',
-       ),
+                title='Visitor Detected',
+                body='We have detected an visitor',
+            ),
             token=registration_token,
         )
         # Send the message
@@ -51,7 +57,6 @@ signal.signal(signal.SIGTERM, signal_handler)
 
 
 def log_visitor(captured_image):
-
     # Local time and save it as a string with DD-MM-YYYY(H:M) Format
     date_to_save = time.localtime()
     date_string = str(date_to_save[2]) + "-" + str(date_to_save[1]) + "-" + str(date_to_save[0]) + "(" + str(
@@ -65,37 +70,45 @@ def log_visitor(captured_image):
     global logged
     logged = True
 
+
 def on_off(status_request):
     global on_off_status
     on_off_status = status_request
+
 
 def update_color():
     # read assets.xml file and save the XY values
     tree = ET.parse('assets.xml')
     root = tree.getroot()
 
-    xy_values = []
-    xy_values[0] = float(root.find('x_value').text)
-    xy_values[1] = float(root.find('y_value').text)
+    # xy_values = []
+    # xy_values[0] = float(root.find('x_value').text)
+    # xy_values[1] = float(root.find('y_value').text)
 
-    return xy_values
+    global x_color, y_color
+    x_color = float(root.find('x_value').text)
+    y_color = float(root.find('y_value').text)
+
+
+# return xy_values
 
 def set_time():
+    global start_hour, start_minute, end_hour, end_minute
     tree = ET.parse('assets.xml')
     root = tree.getroot()
 
     start_hour = int(root.find('start_hour').text)
-    start_minute = int(root.find('start_minute').text)
+    start_minute = int(root.find('start_min').text)
 
     end_hour = int(root.find('end_hour').text)
-    end_minute = int(root.find('end_minute').text)
+    end_minute = int(root.find('end_min').text)
 
 def face_detection_loop():
     global on_off_status, user_watching_feed, logged, visitor_detected, last_detected, face_cascade
     cap = cv2.VideoCapture(0)
 
     hue_prestate = None
-    alarm_time = 0
+    has_alerted = False
     while True:
         # Read the frame
         _, img = cap.read()
@@ -116,23 +129,46 @@ def face_detection_loop():
             if not logged:
                 print(str(len(faces)) + " faces detected")
                 log_visitor(img)
+                logged = True
+
                 send_notification()
-                #if :
-                    #hue_prestate = hue.get_state_of_light(1)
-                    #hue.alarm_state(1, 0.4, 0.4)
+                if is_current_time_between():
+                    hue_prestate = hue.get_state_of_light(1)
+                    call_hue(1)
+                    has_alerted = True
 
         elif visitor_detected and len(faces) == 0:
             if time.process_time() - last_detected > 7:
                 visitor_detected = False
                 logged = False
                 # Call hue script to stop the lights here
-                hue.pre_state(1,hue_prestate)
+                if has_alerted:
+                    hue.pre_state(1, hue_prestate)
+
+
+def is_current_time_between():
+    print(time.localtime().tm_hour)
+    print(time.localtime().tm_min)
+    print(start_hour)
+    print(end_hour)
+    if start_hour < time.localtime().tm_hour > end_hour:
+        return True
+    elif start_hour == time.localtime().tm_hour and start_minute < time.localtime().tm_min:
+        return True
+    elif end_hour == time.localtime().tm_hour and end_minute > time.localtime().tm_min:
+        return True
+    return False
+
+
+def call_hue(id):
+    hue.alarm_state(id, x_color, y_color)
 
 
 if __name__ == '__main__':
     cred = credentials.Certificate("silentguard-8402d-975a61385fb5.json")
     firebase_admin.initialize_app(cred)
 
+    update_color()
     set_time()
 
     face_detection_loop()
