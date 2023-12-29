@@ -10,6 +10,11 @@ app = Flask(__name__)
 process = None
 running = False
 
+def reboot_FaceDet():
+    if process is not None:
+        process.terminate()
+    process = subprocess.Popen(["python3", "faceDet.py"])
+
 @app.route('/updateStartTime', methods=['POST'])
 def update_start_time():
     try:
