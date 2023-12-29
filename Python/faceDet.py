@@ -9,7 +9,7 @@ import firebase_admin
 from firebase_admin import credentials, messaging
 
 # Load the cascade for face detection
-face_cascade = cv2.CascadeClassifier('Python/facedetection.xml')
+face_cascade = cv2.CascadeClassifier('facedetection.xml')
 
 # To capture video from webcam. 
 
@@ -58,7 +58,7 @@ def log_visitor(captured_image):
         date_to_save[3]) + ":" + str(date_to_save[4]) + ")"
 
     # Saves the image to the selected path
-    path = 'Python/images'
+    path = 'images'
     cv2.imwrite(os.path.join(path, date_string + '.jpg'), captured_image)
 
     # ensure that we only log the visit 1 time
@@ -71,7 +71,7 @@ def on_off(status_request):
 
 def update_color():
     # read assets.xml file and save the XY values
-    tree = ET.parse('Python/assets.xml')
+    tree = ET.parse('assets.xml')
     root = tree.getroot()
 
     xy_values = []
@@ -81,7 +81,7 @@ def update_color():
     return xy_values
 
 def set_time():
-    tree = ET.parse('Python/assets.xml')
+    tree = ET.parse('assets.xml')
     root = tree.getroot()
 
     start_hour = int(root.find('start_hour').text)
@@ -117,9 +117,9 @@ def face_detection_loop():
                 print(str(len(faces)) + " faces detected")
                 log_visitor(img)
                 send_notification()
-                if :
-                    hue_prestate = hue.get_state_of_light(1)
-                    hue.alarm_state(1, 0.4, 0.4)
+                #if :
+                    #hue_prestate = hue.get_state_of_light(1)
+                    #hue.alarm_state(1, 0.4, 0.4)
 
         elif visitor_detected and len(faces) == 0:
             if time.process_time() - last_detected > 7:
@@ -130,7 +130,7 @@ def face_detection_loop():
 
 
 if __name__ == '__main__':
-    cred = credentials.Certificate("Python/silentguard-8402d-975a61385fb5.json")
+    cred = credentials.Certificate("silentguard-8402d-975a61385fb5.json")
     firebase_admin.initialize_app(cred)
 
     set_time()

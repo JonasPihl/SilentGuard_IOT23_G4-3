@@ -14,6 +14,24 @@ running = False
 def update_start_time():
     try:
         #change xml file here
+        start_hour = request.args.get('startHour')
+        start_min = request.args.get('startMin')
+
+        print(start_hour, start_min)
+
+        tree = ET.parse('assets.xml')
+        root = tree.getroot()
+
+        # Locate the elements in xml file to update
+        hour_value = root.find('start_hour')
+        min_value = root.find('start_min')
+
+        # Update the values
+        hour_value.text = start_hour
+        min_value.text = start_min
+
+        # Write the changes back to the file
+        tree.write('assets.xml')
 
         return jsonify({"message": "Success"})
     except Exception as e:
@@ -24,8 +42,24 @@ def update_start_time():
 def update_end_time():
     try:
         #change xml file here
-        end_hour = request.args.get('end_hour')
-        end_min = request.args.get('end_min')
+        end_hour = request.args.get('endHour')
+        end_min = request.args.get('endMin')
+
+        print(end_hour, end_min)
+
+        tree = ET.parse('assets.xml')
+        root = tree.getroot()
+
+        # Locate the elements in xml file to update
+        hour_value = root.find('end_hour')
+        min_value = root.find('end_min')
+
+        # Update the values
+        hour_value.text = end_hour
+        min_value.text = end_min
+
+        # Write the changes back to the file
+        tree.write('assets.xml')
 
         return jsonify({"message": "Success"})
     except Exception as e:
@@ -38,20 +72,22 @@ def update_color():
         #change xml file here
         x_color = request.args.get('colorX')
         y_color = request.args.get('colorY')
-        def write_color_to_xml():
-            tree = ET.parse('assets.xml')
-            root = tree.getroot()
 
-            # Locate the elements in xml file to update
-            x_value = root.find('x_value')
-            y_value = root.find('y_value')
+        print(x_color, y_color)
 
-            # Update the values
-            x_value.text = x_color  # Update value1 to 42
-            y_value.text = y_color  # Update value2 to 7.77
+        tree = ET.parse('assets.xml')
+        root = tree.getroot()
 
-            # Write the changes back to the file
-            tree.write('assets.xml')
+        # Locate the elements in xml file to update
+        x_value = root.find('x_value')
+        y_value = root.find('y_value')
+
+        # Update the values
+        x_value.text = x_color
+        y_value.text = y_color
+
+        # Write the changes back to the file
+        tree.write('assets.xml')
 
         return jsonify({"message": "Success"})
     except Exception as e:
