@@ -46,7 +46,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="cleanup" />
+    <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="cleanup SettingsFragment">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-29_12_45__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-29_12_45__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-29_13_20__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-29_13_20__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +60,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\viqto\.android\avd\Pixel_3_XL_API_34.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\leg0m\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/face detection application">
       <ProjectState />
@@ -322,14 +327,7 @@
       <option name="presentableId" value="LOCAL−00013" />
       <updated>1703862737439</updated>
     </task>
-    <task id="LOCAL−00014" summary="cleanup">
-      <option name="closed" value="true" />
-      <created>1703864894662</created>
-      <option name="number" value="LOCAL−00014" />
-      <option name="presentableId" value="LOCAL−00014" />
-      <updated>1703864894662</updated>
-    </task>
-    <option name="localTasksCounter" value="15" />
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -355,7 +353,6 @@
     <MESSAGE value="ipadress temps" />
     <MESSAGE value="cleanup SettingsFragment, commented out parts" />
     <MESSAGE value="cleanup SettingsFragment" />
-    <MESSAGE value="cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleanup SettingsFragment" />
   </component>
 </project>
