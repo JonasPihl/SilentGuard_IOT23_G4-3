@@ -34,6 +34,8 @@ public interface retrofitInterface {
     @POST("/updateColor")
     Call<Double> updateColor(@Query("colorX") double colorX, @Query("colorY") double colorY);
 
+    @POST("/updateFCMToken")
+    Call<String> updateFCMToken(@Query("token") String token);
 
 
 

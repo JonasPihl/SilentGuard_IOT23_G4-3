@@ -9,14 +9,24 @@ import android.graphics.Color;
 import androidx.core.app.NotificationCompat;
 import androidx.core.graphics.drawable.IconCompat;
 
+import com.example.face_detection_application.ui.log.retrofitInterface;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-        @Override
+    private static final String serverAddress = "http://192.168.1.174";
+
+    @Override
         public void onMessageReceived(RemoteMessage remoteMessage) {
             if (remoteMessage.getData().size() > 0) {
                 // Handle data payload
@@ -73,7 +83,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         @Override
         public void onNewToken(String token) {
-            // Handle token refresh or retrieval here
+            Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).addConverterFactory(GsonConverterFactory.create()).build();
+            retrofitInterface apiService = retrofit.create(retrofitInterface.class);
+            Call<String> FCMToken = apiService.updateFCMToken(token);
+
+            FCMToken.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+
+                }
+            });
         }
     }
 
