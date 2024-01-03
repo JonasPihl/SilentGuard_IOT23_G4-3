@@ -1,27 +1,35 @@
 package com.example.face_detection_application.ui.settings;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static androidx.core.content.ContextCompat.getSystemService;
 import static java.lang.Math.pow;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.face_detection_application.R;
 import com.example.face_detection_application.databinding.FragmentSettingsBinding;
 import com.example.face_detection_application.ui.log.retrofitInterface;
 
@@ -39,12 +47,14 @@ import java.util.stream.DoubleStream;
 
 public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;
+    private Button saveColorButton;
     private boolean systemEnabled;
     //private static final String serverAddress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
     private static final String serverAddress = "http://192.168.0.11:5000";  // TODO Replace with Pi's IP
 
     //private static final String serverAddress = "http://192.168.10.193:5000";  // TODO Replace with Pi's IP
     private ImageView colorWheel;
+    private PopupWindow popupWindow;
     private Bitmap colorBitMap;
     private Color completeColor;
     private Button timeStartButton;
@@ -59,10 +69,19 @@ public class SettingsFragment extends Fragment {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        LayoutInflater popupInflater = (LayoutInflater) requireActivity().getLayoutInflater();;
+        View popupView = popupInflater.inflate(R.layout.color_popup, null);
+        popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.popup_background));
+        popupWindow.setElevation(16);
+        popupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+
         getSystemState();
 
-        colorWheel = binding.colorWheel;
-        colorWheel.setVisibility(View.INVISIBLE);
+
+
+//        colorWheel = binding.colorWheel;
+//        colorWheel.setVisibility(View.INVISIBLE);
 
         timeStartButton = binding.timeStartButton;
         timeEndButton = binding.timeEndButton;
@@ -126,12 +145,13 @@ public class SettingsFragment extends Fragment {
             @SuppressLint("ClickableViewAccessibility") //Suppress accessibility warning
             @Override
             public void onClick(View v) {
-                colorWheel = binding.colorWheel;
 
-                boolean isVisible = colorWheel.getVisibility() == View.VISIBLE;
+                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                colorWheel = popupView.findViewById(R.id.color_wheel);
+                saveColorButton = popupView.findViewById(R.id.saveColor);
 
-                if (isVisible){
-                    colorWheel.setVisibility(View.INVISIBLE);
+            saveColorButton.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View v){
 
                     List<Double> XYValues = getRGBtoHueXY(completeColor);
                     System.out.println("After getRGBtoHueXY - This is x: "+ XYValues.get(0) + " This is y: "+ XYValues.get(1));
@@ -152,11 +172,40 @@ public class SettingsFragment extends Fragment {
                     if (completeColor != null){
                         getRGBtoHueXY(completeColor);
                     }
-
-                } else {
-                    colorWheel.setVisibility(View.VISIBLE);
+                    popupWindow.dismiss();
                 }
+            });
 
+//
+//                boolean isVisible = colorWheel.getVisibility() == View.VISIBLE;
+//
+//                if (isVisible){
+//                    colorWheel.setVisibility(View.INVISIBLE);
+//
+//                    List<Double> XYValues = getRGBtoHueXY(completeColor);
+//                    System.out.println("After getRGBtoHueXY - This is x: "+ XYValues.get(0) + " This is y: "+ XYValues.get(1));
+//
+//                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).addConverterFactory(ScalarsConverterFactory.create()).build();
+//
+//                    retrofitInterface apiService = retrofit.create(retrofitInterface.class);
+//                    Call<Double> updateColor = apiService.updateColor(XYValues.get(0), XYValues.get(1));
+//
+//                    updateColor.enqueue(new Callback<Double>() {
+//                        @Override
+//                        public void onResponse(Call<Double> call, Response<Double> response) {}
+//
+//                        @Override
+//                        public void onFailure(Call<Double> call, Throwable t) {}
+//                    });
+//
+//                    if (completeColor != null){
+//                        getRGBtoHueXY(completeColor);
+//                    }
+//
+//                } else {
+//                    colorWheel.setVisibility(View.VISIBLE);
+//                }
+//
                 colorWheel.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -173,7 +222,7 @@ public class SettingsFragment extends Fragment {
                         return true;
                     }
                 });
-
+//
             }
         });
 

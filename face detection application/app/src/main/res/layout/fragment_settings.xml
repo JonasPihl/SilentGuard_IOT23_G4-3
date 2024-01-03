@@ -22,6 +22,7 @@
 
     <ToggleButton
         android:id="@+id/disable_button"
+        android:background="@drawable/toggle_button"
         android:layout_width="328dp"
         android:layout_height="72dp"
 
@@ -37,53 +38,42 @@
 
     <Button
         android:id="@+id/color_button"
-        android:layout_width="188dp"
-        android:layout_height="76dp"
+        android:layout_width="328dp"
+        android:layout_height="72dp"
+        android:background="@drawable/button_background"
         android:text="Pick color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.705" />
-
-    <ImageView
-        android:id="@+id/color_wheel"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:src="@drawable/colorwheelimage"
-
-        android:contentDescription="color_wheel_picker"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.048" />
+        app:layout_constraintVertical_bias="0.840" />
 
     <Button
         android:id="@+id/time_start_button"
-        android:layout_width="142dp"
-        android:layout_height="75dp"
+        android:layout_width="154dp"
+        android:layout_height="64dp"
+        android:background="@drawable/button_background"
         android:text="Start time"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.152"
+        app:layout_constraintHorizontal_bias="0.163"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85" />
+        app:layout_constraintVertical_bias="0.714" />
 
     <Button
         android:id="@+id/time_end_button"
-        android:layout_width="142dp"
-        android:layout_height="76dp"
+        android:layout_width="154dp"
+        android:layout_height="65dp"
+        android:background="@drawable/button_background"
         android:text="End time"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.843"
+        app:layout_constraintHorizontal_bias="0.836"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.851" />
+        app:layout_constraintVertical_bias="0.714" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

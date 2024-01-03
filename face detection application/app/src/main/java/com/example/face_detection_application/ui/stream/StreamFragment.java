@@ -71,6 +71,7 @@ public class StreamFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        stopStream();
         binding = null;
     }
 
