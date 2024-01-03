@@ -31,7 +31,7 @@ public class StreamFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentStreamBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        startStream();
+        //startStream();
         return root;
     }
 
