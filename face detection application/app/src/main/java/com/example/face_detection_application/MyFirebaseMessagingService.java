@@ -24,34 +24,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    private static final String serverAddress = "http://192.168.1.174";
+    private static final String serverAddress = "http://192.168.0.11:5000";
 
     @Override
         public void onMessageReceived(RemoteMessage remoteMessage) {
-            if (remoteMessage.getData().size() > 0) {
-                // Handle data payload
-                Map<String, String> data = remoteMessage.getData();
-                // Access data values using data.get("key")
-                System.out.println("Visitor Detected");
-                // Customize this method to handle data payload
-            }
-
             if (remoteMessage.getNotification() != null) {
-                // Handle notification payload
-
-                sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+                sendNotification(
+                        remoteMessage.getNotification().getTitle(),
+                        remoteMessage.getNotification().getBody()
+                );
             }
         }
 
         private void sendNotification(String title, String body) {
-            // Customize this method to create and show a notification based on the title and body
-            // You can use NotificationCompat.Builder to create a notification
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             String NOTIFICATION_CHANNEL_ID = "12345";
 
             NotificationChannel notificationChannel = new NotificationChannel(
                     NOTIFICATION_CHANNEL_ID,
-                    "My Notifications",
+                    "Visitor Detected Notification",
                     NotificationManager.IMPORTANCE_HIGH
             );
 
@@ -98,6 +89,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 }
             });
+
         }
     }
 

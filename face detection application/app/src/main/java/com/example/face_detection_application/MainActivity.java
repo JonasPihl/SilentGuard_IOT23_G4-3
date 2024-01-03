@@ -56,14 +56,10 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
                     PackageManager.PERMISSION_GRANTED) {
-                // FCM SDK (and your app) can post notifications.
-                System.out.println("2testtest");
             } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                 // TODO: display an educational UI
-                System.out.println("testtest");
             } else {
                 // Directly ask for the permission
-                System.out.println("3testtest");
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
             }
         }
@@ -73,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
-    //private static final String serverAddress = "http://192.168.0.13:5000"; //Jonas
-    //private static final String serverAddress = "http://192.168.1.174:5000/connect"; TODO Replace with Pi's IP    private OkHttpClient client;
-    private static final String serverAddress = "http://192.168.10.193:5000";  // TODO Replace with Pi's IP
     private OkHttpClient client;
     private WebSocket webSocket;
 
@@ -96,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
         askNotificationPermission();
+        System.out.println(FirebaseMessaging.getInstance().getToken());
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
