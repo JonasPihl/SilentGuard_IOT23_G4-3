@@ -32,6 +32,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.face_detection_application.R;
 import com.example.face_detection_application.databinding.FragmentSettingsBinding;
 import com.example.face_detection_application.ui.log.retrofitInterface;
+import com.google.android.material.slider.Slider;
 
 import java.util.List;
 
@@ -149,6 +150,7 @@ public class SettingsFragment extends Fragment {
                 popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
                 colorWheel = popupView.findViewById(R.id.color_wheel);
                 saveColorButton = popupView.findViewById(R.id.saveColor);
+                saveColorButton.setEnabled(false);
 
             saveColorButton.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
@@ -211,7 +213,7 @@ public class SettingsFragment extends Fragment {
                     public boolean onTouch(View v, MotionEvent event) {
                         int x = (int)event.getX();
                         int y = (int)event.getY();
-
+                        saveColorButton.setEnabled(true);
                         //todo Limit rate of retrieved hexValues from bitmap
                         if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE){
                             colorBitMap = getBitMapFromView(colorWheel);

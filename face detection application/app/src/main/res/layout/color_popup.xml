@@ -3,14 +3,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:layout_height="450dp"
     android:orientation="vertical"
     android:layout_gravity="start"
     android:padding="20dp">
 
     <ImageView
         android:id="@+id/color_wheel"
-        android:layout_width="340dp"
+        android:layout_width="wrap_content"
         android:layout_height="340dp"
         android:layout_gravity="top|start"
 
@@ -23,11 +23,11 @@
 
     <Button
         android:id="@+id/saveColor"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Save color"
-        android:color="#8e44ad"
+        android:layout_width="277dp"
+        android:layout_height="56dp"
         android:background="@drawable/button_background"
-        />
+        android:color="#8e44ad"
+        android:layout_marginLeft="45dp"
+        android:text="Save color" />
 
 </LinearLayout>
