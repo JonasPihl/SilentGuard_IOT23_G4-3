@@ -7,11 +7,9 @@ import static java.lang.Math.pow;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,7 +30,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.face_detection_application.R;
 import com.example.face_detection_application.databinding.FragmentSettingsBinding;
 import com.example.face_detection_application.ui.log.retrofitInterface;
-import com.google.android.material.slider.Slider;
 
 import java.util.List;
 
@@ -78,11 +75,6 @@ public class SettingsFragment extends Fragment {
         popupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
 
         getSystemState();
-
-
-
-//        colorWheel = binding.colorWheel;
-//        colorWheel.setVisibility(View.INVISIBLE);
 
         timeStartButton = binding.timeStartButton;
         timeEndButton = binding.timeEndButton;
@@ -178,53 +170,22 @@ public class SettingsFragment extends Fragment {
                 }
             });
 
-//
-//                boolean isVisible = colorWheel.getVisibility() == View.VISIBLE;
-//
-//                if (isVisible){
-//                    colorWheel.setVisibility(View.INVISIBLE);
-//
-//                    List<Double> XYValues = getRGBtoHueXY(completeColor);
-//                    System.out.println("After getRGBtoHueXY - This is x: "+ XYValues.get(0) + " This is y: "+ XYValues.get(1));
-//
-//                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).addConverterFactory(ScalarsConverterFactory.create()).build();
-//
-//                    retrofitInterface apiService = retrofit.create(retrofitInterface.class);
-//                    Call<Double> updateColor = apiService.updateColor(XYValues.get(0), XYValues.get(1));
-//
-//                    updateColor.enqueue(new Callback<Double>() {
-//                        @Override
-//                        public void onResponse(Call<Double> call, Response<Double> response) {}
-//
-//                        @Override
-//                        public void onFailure(Call<Double> call, Throwable t) {}
-//                    });
-//
-//                    if (completeColor != null){
-//                        getRGBtoHueXY(completeColor);
-//                    }
-//
-//                } else {
-//                    colorWheel.setVisibility(View.VISIBLE);
-//                }
-//
                 colorWheel.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
+                        //Get XY coordinates of the touch
                         int x = (int)event.getX();
                         int y = (int)event.getY();
                         saveColorButton.setEnabled(true);
-                        //todo Limit rate of retrieved hexValues from bitmap
                         if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE){
                             colorBitMap = getBitMapFromView(colorWheel);
                         }
-
+                        //Extract Color from bitmap
                         completeColor = colorBitMap.getColor(x, y);
 
                         return true;
                     }
                 });
-//
             }
         });
 
@@ -259,6 +220,7 @@ public class SettingsFragment extends Fragment {
         double[] xy = new double[2];
         xy[0] = x;
         xy[1] = y;
+        //Store XY values in list to be returned
         List<Double> xyAsList = DoubleStream.of(xy).boxed().collect(Collectors.toList());
 
         System.out.println(x + " " + y);
@@ -289,9 +251,12 @@ public class SettingsFragment extends Fragment {
     }
 
     private Bitmap getBitMapFromView(View view) {
+        //Create bitmap from widht / height of view(colorWheel)
+        //Bitmap config ARGB_8888 = Alpha, RGB, each pixel is stored on 4 bytes
         Bitmap bitmap = Bitmap.createBitmap(
                 view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888
         );
+        //Create canvas to draw on the bitmap
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
         return bitmap;
