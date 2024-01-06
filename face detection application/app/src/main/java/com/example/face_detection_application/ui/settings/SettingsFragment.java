@@ -77,11 +77,6 @@ public class SettingsFragment extends Fragment {
 
         getSystemState();
 
-
-
-//        colorWheel = binding.colorWheel;
-//        colorWheel.setVisibility(View.INVISIBLE);
-
         timeStartButton = binding.timeStartButton;
         timeEndButton = binding.timeEndButton;
 
@@ -176,36 +171,6 @@ public class SettingsFragment extends Fragment {
                 }
             });
 
-//
-//                boolean isVisible = colorWheel.getVisibility() == View.VISIBLE;
-//
-//                if (isVisible){
-//                    colorWheel.setVisibility(View.INVISIBLE);
-//
-//                    List<Double> XYValues = getRGBtoHueXY(completeColor);
-//                    System.out.println("After getRGBtoHueXY - This is x: "+ XYValues.get(0) + " This is y: "+ XYValues.get(1));
-//
-//                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).addConverterFactory(ScalarsConverterFactory.create()).build();
-//
-//                    retrofitInterface apiService = retrofit.create(retrofitInterface.class);
-//                    Call<Double> updateColor = apiService.updateColor(XYValues.get(0), XYValues.get(1));
-//
-//                    updateColor.enqueue(new Callback<Double>() {
-//                        @Override
-//                        public void onResponse(Call<Double> call, Response<Double> response) {}
-//
-//                        @Override
-//                        public void onFailure(Call<Double> call, Throwable t) {}
-//                    });
-//
-//                    if (completeColor != null){
-//                        getRGBtoHueXY(completeColor);
-//                    }
-//
-//                } else {
-//                    colorWheel.setVisibility(View.VISIBLE);
-//                }
-//
                 colorWheel.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -297,9 +262,11 @@ public class SettingsFragment extends Fragment {
     }
 
     private Bitmap getBitMapFromView(View view) {
+        //Create bitmap from colorWHeel size, Config ARGB_4bits storage for each pixel
         Bitmap bitmap = Bitmap.createBitmap(
                 view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888
         );
+        //Create canvas to draw on bitmap
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
         return bitmap;
