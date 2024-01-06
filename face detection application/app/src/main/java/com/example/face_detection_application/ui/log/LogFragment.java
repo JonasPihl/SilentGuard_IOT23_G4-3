@@ -1,5 +1,8 @@
 package com.example.face_detection_application.ui.log;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.example.face_detection_application.databinding.FragmentLogBinding;
+import com.example.face_detection_application.ui.retrofitInterface;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,12 +37,11 @@ public class LogFragment extends Fragment {
 
     private FragmentLogBinding binding;
     private ListView logs;
-    //private static final String serverAddress = "http://192.168.1.174:5000";
-    private static final String serverAddress = "http://192.168.0.11:5000";  // TODO Replace with Pi's IP
-    //private static final String serverAddress = "http://192.168.10.193:5000";  // TODO Replace with Pi's IP
+    private String serverAddress;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        serverAddress = fetchServerIP(requireContext());
 
         binding = FragmentLogBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -47,6 +50,16 @@ public class LogFragment extends Fragment {
         ImageListAdapter adapter = new ImageListAdapter(requireActivity(), new ArrayList<>());
         logs.setAdapter(adapter);
         return root;
+    }
+
+    private String fetchServerIP(Context context) {
+        try {
+            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("server_ip");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null; // Handle the error or return a default value
+        }
     }
 
     private void getImagesWithRetry() {
@@ -71,7 +84,7 @@ public class LogFragment extends Fragment {
 
                         for (String filename : responseBody.get("image_list")) {
                             // Construct the full image URL
-                            String imageUrl =  serverAddress + "/images/" + filename;
+                            String imageUrl =  serverAddress + ":5000/images/" + filename;
                             // Create a Map.Entry for each image
                             Map.Entry<String, String> entry = new AbstractMap.SimpleEntry<>(filename, imageUrl);
                             // Add the entry to the list

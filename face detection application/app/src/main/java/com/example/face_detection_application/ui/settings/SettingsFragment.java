@@ -1,17 +1,16 @@
 package com.example.face_detection_application.ui.settings;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-import static androidx.core.content.ContextCompat.getSystemService;
 import static java.lang.Math.pow;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,8 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.face_detection_application.R;
 import com.example.face_detection_application.databinding.FragmentSettingsBinding;
-import com.example.face_detection_application.ui.log.retrofitInterface;
-import com.google.android.material.slider.Slider;
+import com.example.face_detection_application.ui.retrofitInterface;
 
 import java.util.List;
 
@@ -50,10 +48,7 @@ public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;
     private Button saveColorButton;
     private boolean systemEnabled;
-    //private static final String serverAddress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
-    private static final String serverAddress = "http://192.168.0.11:5000";  // TODO Replace with Pi's IP
-
-    //private static final String serverAddress = "http://192.168.10.193:5000";  // TODO Replace with Pi's IP
+    private String serverAddress;
     private ImageView colorWheel;
     private PopupWindow popupWindow;
     private Bitmap colorBitMap;
@@ -64,6 +59,9 @@ public class SettingsFragment extends Fragment {
     private int endHour, endMin;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        serverAddress = fetchServerIP(requireContext());
+
         SettingsViewModel settingsViewModel =
                 new ViewModelProvider(this).get(SettingsViewModel.class);
 
@@ -231,6 +229,16 @@ public class SettingsFragment extends Fragment {
         final TextView textView = binding.textNotifications;
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    private String fetchServerIP(Context context) {
+        try {
+            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("server_ip");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null; // Handle the error or return a default value
+        }
     }
 
     public static List<Double> getRGBtoHueXY(Color completeColor) {
