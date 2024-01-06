@@ -1,5 +1,8 @@
 package com.example.face_detection_application.ui.stream;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.face_detection_application.databinding.FragmentStreamBinding;
-import com.example.face_detection_application.ui.log.retrofitInterface;
-
-import java.io.IOException;
+import com.example.face_detection_application.ui.retrofitInterface;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,9 +22,7 @@ import retrofit2.Retrofit;
 
 public class StreamFragment extends Fragment {
 
-    //private static final String serverAddress = "http://192.168.1.174";
-    //private static final String serverAddress = "http://192.168.0.13";
-    private static final String serverAddress = "http://192.168.0.11";
+    private  String serverAddress;
 
     private FragmentStreamBinding binding;
 
@@ -31,8 +30,18 @@ public class StreamFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentStreamBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        //startStream();
+        serverAddress = fetchServerIP(requireContext());
         return root;
+    }
+
+    private String fetchServerIP(Context context) {
+        try {
+            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("server_ip");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null; // Handle the error or return a default value
+        }
     }
 
     private void startStream(){

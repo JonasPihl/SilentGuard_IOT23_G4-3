@@ -10,11 +10,6 @@
           <theme>@style/Theme.Face_detection_Application</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/color_popup.xml">
-        <config>
-          <theme>@style/Theme.Face_detection_Application</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/face detection application/app/src/main/res/layout/fragment_log.xml">
         <config>
           <theme>@style/Theme.Face_detection_Application</theme>
@@ -52,24 +47,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4666603d-402a-4cc1-b619-2790b415edf0" name="Changes" comment="cleanup SettingsFragment">
-      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.androidTest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Face_detection_Application.app.androidTest.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-28_15_40_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-28_15_40__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-29_12_45_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-29_12_45__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-29_13_20_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-12-29_13_20__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_12_2023_14_02_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_12_2023_14_02__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_12_2023_15_27_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_12_2023_15_27__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_12_2023_11_24_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_12_2023_11_24__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_12_2023_12_21_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_12_2023_12_21__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2023_13_07_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2023_13_07__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/Python/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/settings/SettingsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/MyFirebaseMessagingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/MyFirebaseMessagingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/log/retrofitInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/face detection application/app/src/main/java/com/example/face_detection_application/ui/log/retrofitInterface.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +61,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\viqto\.android\avd\Pixel_3_XL_API_34.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\leg0m\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/face detection application">
       <ProjectState />

@@ -7,14 +7,10 @@ import android.content.Context;
 import android.graphics.Color;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.graphics.drawable.IconCompat;
 
-import com.example.face_detection_application.ui.log.retrofitInterface;
+import com.example.face_detection_application.ui.retrofitInterface;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
-import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;

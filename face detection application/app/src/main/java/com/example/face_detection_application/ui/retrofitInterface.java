@@ -1,4 +1,4 @@
-package com.example.face_detection_application.ui.log;
+package com.example.face_detection_application.ui;
 
 import java.util.List;
 import java.util.Map;

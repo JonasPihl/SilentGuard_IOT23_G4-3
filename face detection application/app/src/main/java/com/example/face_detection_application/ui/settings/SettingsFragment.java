@@ -1,12 +1,13 @@
 package com.example.face_detection_application.ui.settings;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-import static androidx.core.content.ContextCompat.getSystemService;
 import static java.lang.Math.pow;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -29,7 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.face_detection_application.R;
 import com.example.face_detection_application.databinding.FragmentSettingsBinding;
-import com.example.face_detection_application.ui.log.retrofitInterface;
+import com.example.face_detection_application.ui.retrofitInterface;
 
 import java.util.List;
 
@@ -47,10 +48,7 @@ public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;
     private Button saveColorButton;
     private boolean systemEnabled;
-    //private static final String serverAddress = "http://192.168.1.174:5000";  // TODO Replace with Pi's IP
-    private static final String serverAddress = "http://192.168.0.11:5000";  // TODO Replace with Pi's IP
-
-    //private static final String serverAddress = "http://192.168.10.193:5000";  // TODO Replace with Pi's IP
+    private String serverAddress;
     private ImageView colorWheel;
     private PopupWindow popupWindow;
     private Bitmap colorBitMap;
@@ -61,6 +59,9 @@ public class SettingsFragment extends Fragment {
     private int endHour, endMin;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        serverAddress = fetchServerIP(requireContext());
+
         SettingsViewModel settingsViewModel =
                 new ViewModelProvider(this).get(SettingsViewModel.class);
 
@@ -75,6 +76,11 @@ public class SettingsFragment extends Fragment {
         popupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
 
         getSystemState();
+
+
+
+//        colorWheel = binding.colorWheel;
+//        colorWheel.setVisibility(View.INVISIBLE);
 
         timeStartButton = binding.timeStartButton;
         timeEndButton = binding.timeEndButton;
@@ -170,28 +176,69 @@ public class SettingsFragment extends Fragment {
                 }
             });
 
+//
+//                boolean isVisible = colorWheel.getVisibility() == View.VISIBLE;
+//
+//                if (isVisible){
+//                    colorWheel.setVisibility(View.INVISIBLE);
+//
+//                    List<Double> XYValues = getRGBtoHueXY(completeColor);
+//                    System.out.println("After getRGBtoHueXY - This is x: "+ XYValues.get(0) + " This is y: "+ XYValues.get(1));
+//
+//                    Retrofit retrofit = new Retrofit.Builder().baseUrl(serverAddress).addConverterFactory(ScalarsConverterFactory.create()).build();
+//
+//                    retrofitInterface apiService = retrofit.create(retrofitInterface.class);
+//                    Call<Double> updateColor = apiService.updateColor(XYValues.get(0), XYValues.get(1));
+//
+//                    updateColor.enqueue(new Callback<Double>() {
+//                        @Override
+//                        public void onResponse(Call<Double> call, Response<Double> response) {}
+//
+//                        @Override
+//                        public void onFailure(Call<Double> call, Throwable t) {}
+//                    });
+//
+//                    if (completeColor != null){
+//                        getRGBtoHueXY(completeColor);
+//                    }
+//
+//                } else {
+//                    colorWheel.setVisibility(View.VISIBLE);
+//                }
+//
                 colorWheel.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        //Get XY coordinates of the touch
                         int x = (int)event.getX();
                         int y = (int)event.getY();
                         saveColorButton.setEnabled(true);
+                        //todo Limit rate of retrieved hexValues from bitmap
                         if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE){
                             colorBitMap = getBitMapFromView(colorWheel);
                         }
-                        //Extract Color from bitmap
+
                         completeColor = colorBitMap.getColor(x, y);
 
                         return true;
                     }
                 });
+//
             }
         });
 
         final TextView textView = binding.textNotifications;
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    private String fetchServerIP(Context context) {
+        try {
+            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("server_ip");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null; // Handle the error or return a default value
+        }
     }
 
     public static List<Double> getRGBtoHueXY(Color completeColor) {
@@ -220,7 +267,6 @@ public class SettingsFragment extends Fragment {
         double[] xy = new double[2];
         xy[0] = x;
         xy[1] = y;
-        //Store XY values in list to be returned
         List<Double> xyAsList = DoubleStream.of(xy).boxed().collect(Collectors.toList());
 
         System.out.println(x + " " + y);
@@ -251,12 +297,9 @@ public class SettingsFragment extends Fragment {
     }
 
     private Bitmap getBitMapFromView(View view) {
-        //Create bitmap from widht / height of view(colorWheel)
-        //Bitmap config ARGB_8888 = Alpha, RGB, each pixel is stored on 4 bytes
         Bitmap bitmap = Bitmap.createBitmap(
                 view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888
         );
-        //Create canvas to draw on the bitmap
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
         return bitmap;

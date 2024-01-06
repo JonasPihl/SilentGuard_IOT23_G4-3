@@ -72,11 +72,6 @@ def log_visitor(captured_image):
     logged = True
 
 
-def on_off(status_request):
-    global on_off_status
-    on_off_status = status_request
-
-
 def set_color():
     # read assets.xml file and save the XY values
     tree = ET.parse('assets.xml')
@@ -120,13 +115,6 @@ def face_detection_loop():
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         # Detect the faces
         faces = face_cascade.detectMultiScale(gray, 1.1, 4)
-
-        if user_watching_feed:
-            # send image feed to the android application here
-            print("Sending image feed to android application")
-        print(visitor_detected)
-        print(len(faces))
-
         if len(faces) > 0:
             last_detected = time.process_time()
             visitor_detected = True
