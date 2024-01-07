@@ -39,7 +39,7 @@
 
         <meta-data
             android:name="server_ip"
-            android:value="IP to Pi here" />
+            android:value="http://192.168.10.193" />
 
     </application>
 
