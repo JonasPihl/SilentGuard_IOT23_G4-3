@@ -1,7 +1,7 @@
 import os
 import subprocess
 import cv2
-from flask import Flask, Response, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory
 import xml.etree.ElementTree as ET
 
 app = Flask(__name__)

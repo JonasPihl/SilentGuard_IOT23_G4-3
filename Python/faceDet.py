@@ -1,4 +1,3 @@
-from flask import jsonify
 import hue
 import cv2
 import os
@@ -16,7 +15,6 @@ face_cascade = cv2.CascadeClassifier('facedetection.xml')
 logged = False
 visitor_detected = False
 last_detected = 0.0
-user_watching_feed = False
 x_color = 0.0
 y_color = 0.0
 start_hour = 0
@@ -50,7 +48,6 @@ def send_notification():
 
 
 def signal_handler(signum, frame):
-    # Add cleanup code if needed
     exit()
 
 
@@ -103,7 +100,7 @@ def set_registration_token():
 
 
 def face_detection_loop():
-    global on_off_status, user_watching_feed, logged, visitor_detected, last_detected, face_cascade
+    global logged, visitor_detected, last_detected, face_cascade
     cap = cv2.VideoCapture(0)
 
     hue_prestate = None
