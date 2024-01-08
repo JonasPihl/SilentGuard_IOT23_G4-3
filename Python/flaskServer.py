@@ -1,20 +1,23 @@
 import os
 import subprocess
-import cv2
 from flask import Flask, jsonify, request, send_from_directory
+import cv2
+from flask import Flask, Response, jsonify, request, send_from_directory
+from flask_socketio import SocketIO
 import xml.etree.ElementTree as ET
 
 app = Flask(__name__)
 process = None
 running = False
+stream_process = None
 
 
 def reboot_face_det():
     global process
     if process is not None:
         process.terminate()
-
-    process = subprocess.Popen(["python3", "faceDet.py"])
+        process.wait()
+        process = subprocess.Popen(["python3", "faceDet.py"])
 
 
 @app.route('/updateStartTime', methods=['POST'])
@@ -22,6 +25,7 @@ def update_start_time():
     try:
         write_values_to_xml('startHour', 'startMin', 'start_hour', 'start_min')
 
+        reboot_face_det()
         return jsonify({"message": "Success"})
     except Exception as e:
         # Log the exception or handle it as needed
@@ -33,6 +37,7 @@ def update_end_time():
     try:
         write_values_to_xml('endHour', 'endMin', 'end_hour', 'end_min')
 
+        reboot_face_det()
         return jsonify({"message": "Success"})
     except Exception as e:
         # Log the exception or handle it as needed
@@ -44,22 +49,27 @@ def update_color():
     try:
         write_values_to_xml('colorX', 'colorY', 'x_value', 'y_value')
 
+        reboot_face_det()
         return jsonify({"message": "Success"})
     except Exception as e:
         # Log the exception or handle it as needed
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('updateFCMToken', methods=['POST'])
+@app.route('/updateFCMToken', methods=['POST'])
 def update_fcm_token():
     try:
         tree = ET.parse('assets.xml')
         root = tree.getroot()
 
+        write_value1 = request.args.get('token')
         xlm_element = root.find("registratation_token")
-        xlm_element.text = 'registratation_token'
+
+        xlm_element.text = write_value1
 
         tree.write('assets.xml')
+
+        reboot_face_det()
         return jsonify({"message": "Success"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -94,13 +104,17 @@ def state_of_server():
 
 @app.route('/start_stream')
 def start_stream():
-    global process, running
+    global process, running, stream_process
     if process is not None:
         process.terminate()
-    process = subprocess.Popen([
-        '/home/p3/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer',
-        '-i', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -r 640x480',
-        '-o', '/home/p3/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w ./www'])
+        process.wait()
+        running = False
+    stream_process = subprocess.Popen([
+        '/home/grupp43/silentguard/Python/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer',
+        '-i',
+        '/home/grupp43/silentguard/Python/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -r 640x480 -d /dev/video0',
+        '-o', '/home/grupp43/silentguard/Python/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w ./www'],
+        preexec_fn=os.setpgrp())
     # TODO change the path to the mjpg-streamer folder to the correct path in the pi
 
     return jsonify({"message": "Success"})
@@ -108,21 +122,22 @@ def start_stream():
 
 @app.route('/stop_stream')
 def stop_stream():
-    global process, running
-    if process is not None:
-        process.terminate()
+    global stream_process, running
+    if stream_process is not None:
+        stream_process.terminate()
+        stream_process.wait()
     return jsonify({"message": "Success"})
 
 
 @app.route('/get_image_list')
 def get_image_list():
-    image_files = [f for f in os.listdir("Python/images") if f.endswith(".jpg")]
+    image_files = [f for f in os.listdir("images") if f.endswith(".jpg")]
     return jsonify({"image_list": image_files})
 
 
 @app.route('/images/<path:filename>')
 def serve_image(filename):
-    return send_from_directory("Python/images", filename)
+    return send_from_directory("images", filename)
 
 
 @app.route('/on_off', methods=['POST'])
@@ -137,6 +152,7 @@ def on_off():
             else:
                 running = False
                 process.terminate()
+                process.wait()
         return jsonify({"message": "Success"})
     except Exception as e:
         # Log the exception or handle it as needed

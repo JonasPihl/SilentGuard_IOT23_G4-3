@@ -28,15 +28,13 @@ def send_notification():
 
     try:
         global registration_token
-        # Get the FCM registration token from the Android device
-        registration_token = "dIaqJX9ARWmLANRkzKrtkh:APA91bEYxqgZ4zxc6XIMLzxh8YTKj8Pe6GKoGU98Kd8vzGYTCy5qIaDvi83b9PjSy2mMBACPT6_8QCi4EPd612CWMyLEY_FmbDed1bGFssKYYdnunQZ4BRmZh1Onwa5-wMhAxog1Cy9I"
-        # registration_token = "dBkkpQw_SWmssAFVVn9xNw:APA91bFmppdKioH02MBg0wdVEFjePWLLpRaX2U5Tp_SKZTlZ8i8Z-nzyyTmipNn1rDuPqFiaJUZ0EFsN8DIHz0EbmUoYvTTCMy29BfxlkhNWRE67HkqYCt4Ivi_-ExMZkY6wbhfmbLhD"
+
         # Construct the message
         message = messaging.Message(
             data={},
             notification=messaging.Notification(
                 title='Visitor Detected',
-                body='We have detected an visitor',
+                body="We have detected a visitor at your door"
             ),
             token=registration_token,
         )
@@ -49,6 +47,20 @@ def send_notification():
 
 def signal_handler(signum, frame):
     exit()
+
+
+def generate_frames():
+    camera = cv2.VideoCapture(0)  # Use the correct camera index or video file path
+    while True:
+        success, frame = camera.read()
+        if not success:
+            break
+        ret, buffer = cv2.imencode('.jpg', frame)
+        if not ret:
+            break
+        frame = buffer.tobytes()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 
 signal.signal(signal.SIGTERM, signal_handler)
@@ -96,7 +108,7 @@ def set_registration_token():
     tree = ET.parse('assets.xml')
     root = tree.getroot()
 
-    registration_token = root
+    registration_token = root.find('registratation_token').text
 
 
 def face_detection_loop():
@@ -123,6 +135,7 @@ def face_detection_loop():
                 send_notification()
                 if is_current_time_between():
                     hue_prestate = hue.get_state_of_light(1)
+                    print("call Hue")
                     call_hue(1)
                     has_alerted = True
 
@@ -151,7 +164,7 @@ def call_hue(id):
 
 if __name__ == '__main__':
     #for the notifications on android
-    cred = credentials.Certificate("silentguard-8402d-975a61385fb5.json")
+    cred = credentials.Certificate(CERTIFICATE HERE)
     firebase_admin.initialize_app(cred)
 
     #sets from assets.xml

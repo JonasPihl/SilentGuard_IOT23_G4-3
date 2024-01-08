@@ -1,23 +1,19 @@
 import requests
 import json
 
-IP_ADDRESS = "192.168.0.5"
-USER_NAME = "ooDPwaGQASVmjCwNLqDHlRtlHdmo6SU8Ce6ZxUIo"
+IP_ADDRESS = "HUE DOCK IP ADRESS HERE"
+USER_NAME = "USERNAME FOR THE HUE API HERE"
 preState = ""
+URL = "http://" + IP_ADDRESS + "/api/" + USER_NAME + ""
 
 
 def get_state_of_light(id):
-    return requests.get(f'{get_url()}/lights/{id}/').text
-
-
-def get_url():
-    return f'http://{ipAddress}/api/{USER_NAME}'
+    return requests.get(f'{URL}/lights/{id}/').text
 
 
 def alarm_state(id,xcolor,ycolor):
     define_pre_state(id)
-
-    requests.put(f'{get_url()}/lights/{id}/state', json.dumps({"xy": [xcolor, ycolor], "alert": "lselect"}))
+    requests.put(f'{URL}/lights/{id}/state', json.dumps({"xy": [xcolor, ycolor], "alert": "lselect"}))
 
 
 def define_pre_state(id):
@@ -26,8 +22,13 @@ def define_pre_state(id):
 
 
 def pre_state(id,prestate):
-    requests.put(f'{get_url()}/lights/{id}/state', json.dumps(x["state"]))
-    requests.put(f'{get_url()}/lights/{id}/state', json.dumps({"alert": "none"}))
+    prestate_json = json.loads(prestate)
+    prestate_json["state"]["alert"] = "none"
+
+    print(prestate_json["state"])
+    requests.put(f'{URL}/lights/{id}/state', json.dumps(prestate_json['state']))
+
+
 
 
 
